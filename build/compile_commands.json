@@ -1,0 +1,92 @@
+[
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/deps",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG   -o CMakeFiles/rq_deps.dir/deps.cpp.o -c /home/vujevic/TacLast/Tachyon/deps/deps.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/deps/deps.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/deps",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG   -o CMakeFiles/tac_deps.dir/deps.cpp.o -c /home/vujevic/TacLast/Tachyon/deps/deps.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/deps/deps.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG   -o CMakeFiles/runquery.dir/RunQuery.cpp.o -c /home/vujevic/TacLast/Tachyon/src/RunQuery.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/RunQuery.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/Base.cpp.o -c /home/vujevic/TacLast/Tachyon/src/Base.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/Base.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/Constants.cpp.o -c /home/vujevic/TacLast/Tachyon/src/Constants.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/Constants.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/DatabaseElement.cpp.o -c /home/vujevic/TacLast/Tachyon/src/DatabaseElement.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/DatabaseElement.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/Evalue.cpp.o -c /home/vujevic/TacLast/Tachyon/src/Evalue.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/Evalue.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/opal.cpp.o -c /home/vujevic/TacLast/Tachyon/src/opal.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/opal.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/RunQuery.cpp.o -c /home/vujevic/TacLast/Tachyon/src/RunQuery.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/RunQuery.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o -c /home/vujevic/TacLast/Tachyon/src/ScoreMatrix.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/ScoreMatrix.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/Scorer.cpp.o -c /home/vujevic/TacLast/Tachyon/src/Scorer.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/Scorer.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/Seg.cpp.o -c /home/vujevic/TacLast/Tachyon/src/Seg.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/Seg.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/SeqIndex.cpp.o -c /home/vujevic/TacLast/Tachyon/src/SeqIndex.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/SeqIndex.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/tachyon.cpp.o -c /home/vujevic/TacLast/Tachyon/src/tachyon.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/tachyon.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/util.cpp.o -c /home/vujevic/TacLast/Tachyon/src/util.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/util.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/alignment.cpp.o -c /home/vujevic/TacLast/Tachyon/src/alignment.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/alignment.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/writer.cpp.o -c /home/vujevic/TacLast/Tachyon/src/writer.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/writer.cpp"
+},
+{
+  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
+  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR}    -o CMakeFiles/tachyon.dir/main.cpp.o -c /home/vujevic/TacLast/Tachyon/src/main.cpp",
+  "file": "/home/vujevic/TacLast/Tachyon/src/main.cpp"
+}
+]

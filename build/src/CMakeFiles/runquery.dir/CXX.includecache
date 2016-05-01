@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/vujevic/TacLast/Tachyon/src/Constants.h
+
+/home/vujevic/TacLast/Tachyon/src/RunQuery.cpp
+iostream
+-
+fstream
+-
+string
+-
+boost/asio.hpp
+-
+Constants.h
+/home/vujevic/TacLast/Tachyon/src/Constants.h
+boost/array.hpp
+-
+

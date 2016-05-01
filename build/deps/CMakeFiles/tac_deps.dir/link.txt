@@ -1,0 +1,2 @@
+/usr/bin/ar cq libtac_deps.a  CMakeFiles/tac_deps.dir/deps.cpp.o
+/usr/bin/ranlib libtac_deps.a

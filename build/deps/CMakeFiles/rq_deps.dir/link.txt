@@ -1,0 +1,2 @@
+/usr/bin/ar cq librq_deps.a  CMakeFiles/rq_deps.dir/deps.cpp.o
+/usr/bin/ranlib librq_deps.a
