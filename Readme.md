@@ -35,8 +35,15 @@ if you want to align DNA sequences against nr database.
 
 This commands determine the mode in which you want to run this app
 
-| Command       | Description   |
-| ------------- |:------------- |
+| Command       | Description                                                             |
+| ------------- |:----------------------------------------------------------------------- |
 | makedb        | Create reduced database from FASTA reference file.                      |
 | blastp        | Align protein query sequences against a protein reference database      |
 | blastx        | Align DNA query against a protein reference database                    |
+
+###General options
+This options is necessary in all modules.
+
+| Option  |  Short | Default | Description |
+| --------|--------| --------| ------------|
+|--threads| || || ||
