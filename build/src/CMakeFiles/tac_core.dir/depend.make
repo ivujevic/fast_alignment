@@ -24,17 +24,10 @@ src/CMakeFiles/tac_core.dir/RunQuery.cpp.o: ../src/RunQuery.cpp
 src/CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o: ../src/ScoreMatrix.cpp
 src/CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o: ../src/ScoreMatrix.hpp
 
-src/CMakeFiles/tac_core.dir/Scorer.cpp.o: ../src/Constants.h
-src/CMakeFiles/tac_core.dir/Scorer.cpp.o: ../src/Scorer.cpp
-src/CMakeFiles/tac_core.dir/Scorer.cpp.o: ../src/Scorer.h
-
 src/CMakeFiles/tac_core.dir/Seg.cpp.o: ../src/Constants.h
 src/CMakeFiles/tac_core.dir/Seg.cpp.o: ../src/Seg.cpp
 src/CMakeFiles/tac_core.dir/Seg.cpp.o: ../src/Seg.h
 src/CMakeFiles/tac_core.dir/Seg.cpp.o: ../src/logArray.h
-
-src/CMakeFiles/tac_core.dir/SeqIndex.cpp.o: ../src/SeqIndex.cpp
-src/CMakeFiles/tac_core.dir/SeqIndex.cpp.o: ../src/SeqIndex.h
 
 src/CMakeFiles/tac_core.dir/alignment.cpp.o: ../src/alignment.cpp
 src/CMakeFiles/tac_core.dir/alignment.cpp.o: ../src/alignment.hpp
@@ -47,7 +40,6 @@ src/CMakeFiles/tac_core.dir/tachyon.cpp.o: ../src/Constants.h
 src/CMakeFiles/tac_core.dir/tachyon.cpp.o: ../src/DatabaseElement.h
 src/CMakeFiles/tac_core.dir/tachyon.cpp.o: ../src/Evalue.h
 src/CMakeFiles/tac_core.dir/tachyon.cpp.o: ../src/ScoreMatrix.hpp
-src/CMakeFiles/tac_core.dir/tachyon.cpp.o: ../src/Scorer.h
 src/CMakeFiles/tac_core.dir/tachyon.cpp.o: ../src/Seg.h
 src/CMakeFiles/tac_core.dir/tachyon.cpp.o: ../src/alignment.hpp
 src/CMakeFiles/tac_core.dir/tachyon.cpp.o: ../src/opal.h

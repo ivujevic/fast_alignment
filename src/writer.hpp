@@ -1,10 +1,4 @@
 
-/*! copyright DP
- * @file writer.hpp
- *
- * @brief Alignment output header file
- */
-
 #pragma once
 
 #include <cstdio>

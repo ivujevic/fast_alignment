@@ -176,12 +176,22 @@ void Base::writeMaps() {
 
 bool Base::read() {
 	databaseSize_ = readFastaFile(pathToDatabase,sets,0);
+	if(!databaseSize_) {
+		#pragma critical
+		cerr<<"Error: Original database doesn't exist" << endl;
+		exit(-1);
+	}
 	return databaseSize_;
 }
 
 
 void Base::read_indexes(std::unordered_map<long, vector<pair<long, long>>> &map) {
 	std::ifstream out(reduced_database_);
+	if(!out.good()) {
+		#pragma critical
+		cerr<<"Error: Reduce database file doesn't exist" << endl;
+		exit(-1);
+	}
 	boost::archive::binary_iarchive ia(out);
 	ia>>high_freq_map;
 	ia>>low_freq_map;

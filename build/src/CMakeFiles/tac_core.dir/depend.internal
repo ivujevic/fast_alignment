@@ -24,18 +24,11 @@ src/CMakeFiles/tac_core.dir/RunQuery.cpp.o
 src/CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o
  /home/vujevic/TacLast/Tachyon/src/ScoreMatrix.cpp
  /home/vujevic/TacLast/Tachyon/src/ScoreMatrix.hpp
-src/CMakeFiles/tac_core.dir/Scorer.cpp.o
- /home/vujevic/TacLast/Tachyon/src/Constants.h
- /home/vujevic/TacLast/Tachyon/src/Scorer.cpp
- /home/vujevic/TacLast/Tachyon/src/Scorer.h
 src/CMakeFiles/tac_core.dir/Seg.cpp.o
  /home/vujevic/TacLast/Tachyon/src/Constants.h
  /home/vujevic/TacLast/Tachyon/src/Seg.cpp
  /home/vujevic/TacLast/Tachyon/src/Seg.h
  /home/vujevic/TacLast/Tachyon/src/logArray.h
-src/CMakeFiles/tac_core.dir/SeqIndex.cpp.o
- /home/vujevic/TacLast/Tachyon/src/SeqIndex.cpp
- /home/vujevic/TacLast/Tachyon/src/SeqIndex.h
 src/CMakeFiles/tac_core.dir/alignment.cpp.o
  /home/vujevic/TacLast/Tachyon/src/alignment.cpp
  /home/vujevic/TacLast/Tachyon/src/alignment.hpp
@@ -48,7 +41,6 @@ src/CMakeFiles/tac_core.dir/tachyon.cpp.o
  /home/vujevic/TacLast/Tachyon/src/DatabaseElement.h
  /home/vujevic/TacLast/Tachyon/src/Evalue.h
  /home/vujevic/TacLast/Tachyon/src/ScoreMatrix.hpp
- /home/vujevic/TacLast/Tachyon/src/Scorer.h
  /home/vujevic/TacLast/Tachyon/src/Seg.h
  /home/vujevic/TacLast/Tachyon/src/alignment.hpp
  /home/vujevic/TacLast/Tachyon/src/opal.h

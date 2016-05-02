@@ -300,30 +300,6 @@ ScoreMatrix.cpp.s:
 	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/ScoreMatrix.cpp.s
 .PHONY : ScoreMatrix.cpp.s
 
-Scorer.o: Scorer.cpp.o
-.PHONY : Scorer.o
-
-# target to build an object file
-Scorer.cpp.o:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/Scorer.cpp.o
-.PHONY : Scorer.cpp.o
-
-Scorer.i: Scorer.cpp.i
-.PHONY : Scorer.i
-
-# target to preprocess a source file
-Scorer.cpp.i:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/Scorer.cpp.i
-.PHONY : Scorer.cpp.i
-
-Scorer.s: Scorer.cpp.s
-.PHONY : Scorer.s
-
-# target to generate assembly for a file
-Scorer.cpp.s:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/Scorer.cpp.s
-.PHONY : Scorer.cpp.s
-
 Seg.o: Seg.cpp.o
 .PHONY : Seg.o
 
@@ -347,30 +323,6 @@ Seg.s: Seg.cpp.s
 Seg.cpp.s:
 	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/Seg.cpp.s
 .PHONY : Seg.cpp.s
-
-SeqIndex.o: SeqIndex.cpp.o
-.PHONY : SeqIndex.o
-
-# target to build an object file
-SeqIndex.cpp.o:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/SeqIndex.cpp.o
-.PHONY : SeqIndex.cpp.o
-
-SeqIndex.i: SeqIndex.cpp.i
-.PHONY : SeqIndex.i
-
-# target to preprocess a source file
-SeqIndex.cpp.i:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/SeqIndex.cpp.i
-.PHONY : SeqIndex.cpp.i
-
-SeqIndex.s: SeqIndex.cpp.s
-.PHONY : SeqIndex.s
-
-# target to generate assembly for a file
-SeqIndex.cpp.s:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/SeqIndex.cpp.s
-.PHONY : SeqIndex.cpp.s
 
 alignment.o: alignment.cpp.o
 .PHONY : alignment.o
@@ -546,15 +498,9 @@ help:
 	@echo "... ScoreMatrix.o"
 	@echo "... ScoreMatrix.i"
 	@echo "... ScoreMatrix.s"
-	@echo "... Scorer.o"
-	@echo "... Scorer.i"
-	@echo "... Scorer.s"
 	@echo "... Seg.o"
 	@echo "... Seg.i"
 	@echo "... Seg.s"
-	@echo "... SeqIndex.o"
-	@echo "... SeqIndex.i"
-	@echo "... SeqIndex.s"
 	@echo "... alignment.o"
 	@echo "... alignment.i"
 	@echo "... alignment.s"

@@ -6,7 +6,6 @@ src/CMakeFiles/tachyon.dir/main.cpp.o: ../src/Constants.h
 src/CMakeFiles/tachyon.dir/main.cpp.o: ../src/DatabaseElement.h
 src/CMakeFiles/tachyon.dir/main.cpp.o: ../src/Evalue.h
 src/CMakeFiles/tachyon.dir/main.cpp.o: ../src/ScoreMatrix.hpp
-src/CMakeFiles/tachyon.dir/main.cpp.o: ../src/Scorer.h
 src/CMakeFiles/tachyon.dir/main.cpp.o: ../src/Seg.h
 src/CMakeFiles/tachyon.dir/main.cpp.o: ../src/alignment.hpp
 src/CMakeFiles/tachyon.dir/main.cpp.o: ../src/main.cpp

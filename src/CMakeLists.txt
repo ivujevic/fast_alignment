@@ -9,9 +9,7 @@ add_library(tac_core
 		opal.cpp
 		RunQuery.cpp
 		ScoreMatrix.cpp
-		Scorer.cpp
 		Seg.cpp
-		SeqIndex.cpp
 		tachyon.cpp
 		util.cpp alignment.cpp alignment.hpp writer.cpp writer.hpp)
 

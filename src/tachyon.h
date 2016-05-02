@@ -8,7 +8,6 @@
 #include "opal.h"
 #include "ScoreMatrix.hpp"
 #include "Evalue.h"
-#include "Scorer.h"
 #include <unordered_set>
 
 #include "alignment.hpp"

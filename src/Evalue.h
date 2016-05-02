@@ -8,8 +8,6 @@
 enum class ScoreMatrixType;
 class EValue;
 
-EValue createEValue(uint64_t database_cells,
-                                     std::shared_ptr<ScoreMatrix> scorer);
 
 class EValue {
 public:

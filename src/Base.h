@@ -30,7 +30,6 @@ public:
 
 
 	const uint64_t database_size() const{return databaseSize_;}
-	void database_size(long long size) {databaseSize_ = size;}
 
 	const DatabaseElement& operator [] (int index) const{
 		return sets[index];

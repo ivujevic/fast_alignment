@@ -12,12 +12,31 @@ didn't change.
 
 Build by writing `make` in your command line. If everything went without errors
 executables should be present in the directory called `build`. There is executable file
-tachyonn
+tachyon.
 
 ## Running
+There are three options in which you can run your application. Use `makedb` if you want to set up reduced database. If
+you run
 
-There are three executables. If you want to use this app on client-server arhitecture use `tachyon_server`.
-It dump base in memory, waiting for queries and store outputs to given path. For this, you also need other executable.
-In order to run this procedure you need to start `run_query` with appropriate parameters. If you want to use this app
-as stand-alone application you will need third executable, `tachyon`.
+`$ tachyon makedb -d nr.fa -r reduced_nr`
 
+it will create reduced database (required by algorithm) in the current directory.
+
+You can run alignment task with the following commands:
+
+`$ tachyon blastp -d nr.fa -i reduced_nr -q queries.fa -o results`
+if you want to align protein sequences against nr database, or
+
+`$ tachyon blastx -d nr.fa -i reduced_nr -q queries.fa -o results`
+
+if you want to align DNA sequences against nr database.
+
+##Commands
+
+This commands determine the mode in which you want to run this app
+
+| Command       | Description   |
+| ------------- |:-------------:|
+| makedb        | Create reduced database from FASTA reference file.                      |
+| blastp        | Align protein query sequences against a protein reference database      |
+| blastx        | Align DNA query against a protein reference database                    |

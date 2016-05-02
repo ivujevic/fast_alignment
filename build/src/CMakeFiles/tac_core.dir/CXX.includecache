@@ -116,18 +116,6 @@ vector
 string
 -
 
-/home/vujevic/TacLast/Tachyon/src/Scorer.cpp
-stdlib.h
--
-string.h
--
-Scorer.h
-/home/vujevic/TacLast/Tachyon/src/Scorer.h
-Constants.h
-/home/vujevic/TacLast/Tachyon/src/Constants.h
-
-/home/vujevic/TacLast/Tachyon/src/Scorer.h
-
 /home/vujevic/TacLast/Tachyon/src/Seg.cpp
 Seg.h
 /home/vujevic/TacLast/Tachyon/src/Seg.h
@@ -147,20 +135,6 @@ vector
 -
 Constants.h
 /home/vujevic/TacLast/Tachyon/src/Constants.h
-
-/home/vujevic/TacLast/Tachyon/src/SeqIndex.cpp
-SeqIndex.h
-/home/vujevic/TacLast/Tachyon/src/SeqIndex.h
-vector
--
-algorithm
--
-
-/home/vujevic/TacLast/Tachyon/src/SeqIndex.h
-string
--
-vector
--
 
 /home/vujevic/TacLast/Tachyon/src/alignment.cpp
 alignment.hpp
@@ -225,8 +199,6 @@ ScoreMatrix.hpp
 /home/vujevic/TacLast/Tachyon/src/ScoreMatrix.hpp
 Evalue.h
 /home/vujevic/TacLast/Tachyon/src/Evalue.h
-Scorer.h
-/home/vujevic/TacLast/Tachyon/src/Scorer.h
 unordered_set
 -
 alignment.hpp

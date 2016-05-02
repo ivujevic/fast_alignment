@@ -6,25 +6,21 @@
       <sourceFolder url="file://$MODULE_DIR$/src/util.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Base.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/RunQuery.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/SeqIndex.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/DatabaseElement.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Evalue.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/ScoreMatrix.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/tachyon.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/util.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/opal.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Constants.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/ScoreMatrix.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/writer.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/alignment.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/opal.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/DatabaseElement.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Seg.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Evalue.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Scorer.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/CMakeLists.txt" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/writer.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Evalue.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/Base.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/Scorer.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/SeqIndex.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/Constants.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/opal.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/ScoreMatrix.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/alignment.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/util.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/alignment.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/tachyon.cpp" isTestSource="false" />

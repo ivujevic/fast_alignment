@@ -28,8 +28,6 @@ AlignmentType strToAlignmentType(const std::string& str);
 
 int main(int argc, const char *argv[]) {
 
-	auto threads = sysconf(_SC_NPROCESSORS_ONLN) - 1;
-
 	std::string database_path;
 
 	std::string reduced_database;
@@ -39,10 +37,11 @@ int main(int argc, const char *argv[]) {
 	namespace po = boost::program_options;
 	po::options_description general("General options");
 
+	long threads;
 	general.add_options()
 			("help,h", "produce help message")
 			("threads,p", po::value<long>(&threads)->default_value(8), "number of CPU threads")
-			("db,d", po::value<string>(&database_path), "database file");
+			("db,d", po::value<string>(&database_path), "path to original nr file");
 
 	po::options_description makedb("Makedb options");
 	makedb.add_options()

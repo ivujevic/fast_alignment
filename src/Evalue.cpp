@@ -41,7 +41,7 @@ EValue::EValue(uint64_t database_cells, ScoreMatrix& scorer) {
 
     auto gap_open = scorer.gap_open();
     auto gap_extend = scorer.gap_extend();
-
+    
     //if (scorer->type() == ScoreMatrixType::kBlosum62) {
     for (uint32_t i = 0; i < kEValueConstants.size(); ++i) {
         if (gap_open == kEValueConstants[i].gap_open &&

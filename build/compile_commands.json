@@ -51,18 +51,8 @@
 },
 {
   "directory": "/home/vujevic/TacLast/Tachyon/build/src",
-  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/Scorer.cpp.o -c /home/vujevic/TacLast/Tachyon/src/Scorer.cpp",
-  "file": "/home/vujevic/TacLast/Tachyon/src/Scorer.cpp"
-},
-{
-  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
   "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/Seg.cpp.o -c /home/vujevic/TacLast/Tachyon/src/Seg.cpp",
   "file": "/home/vujevic/TacLast/Tachyon/src/Seg.cpp"
-},
-{
-  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
-  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/SeqIndex.cpp.o -c /home/vujevic/TacLast/Tachyon/src/SeqIndex.cpp",
-  "file": "/home/vujevic/TacLast/Tachyon/src/SeqIndex.cpp"
 },
 {
   "directory": "/home/vujevic/TacLast/Tachyon/build/src",
