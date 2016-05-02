@@ -70,8 +70,7 @@ Use this options when you want to align queries against reduced database
 |--out-format   |        |      bm9     | path to reduced database |
 |--evalue       |   -v   |   0.001      | maximum e-value |
 |--max-aligns   | -a     |   10         | maximum number of outputs per query |
-|--algorithm    |   -A   |      SW        | algorithm used for alignment
-                                                SW - Smith|
+|--algorithm    |   -A   |      SW        | algorithm used for alignment|
 
 
 
