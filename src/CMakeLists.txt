@@ -7,7 +7,6 @@ add_library(tac_core
 		DatabaseElement.cpp
 		Evalue.cpp
 		opal.cpp
-		RunQuery.cpp
 		ScoreMatrix.cpp
 		Seg.cpp
 		tachyon.cpp
@@ -22,7 +21,5 @@ add_executable(tachyon main.cpp)
 target_link_libraries(tachyon tac_core)
 adjust_xcode_settings(tachyon)
 
-add_executable(runquery RunQuery.cpp)
-target_link_libraries(runquery rq_deps)
 
 

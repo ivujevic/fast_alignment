@@ -4,7 +4,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/tac_core.dir/DatabaseElement.cpp.o"
   "CMakeFiles/tac_core.dir/Evalue.cpp.o"
   "CMakeFiles/tac_core.dir/opal.cpp.o"
-  "CMakeFiles/tac_core.dir/RunQuery.cpp.o"
   "CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o"
   "CMakeFiles/tac_core.dir/Seg.cpp.o"
   "CMakeFiles/tac_core.dir/tachyon.cpp.o"

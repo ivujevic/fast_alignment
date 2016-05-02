@@ -18,9 +18,6 @@ src/CMakeFiles/tac_core.dir/Evalue.cpp.o: ../src/Evalue.cpp
 src/CMakeFiles/tac_core.dir/Evalue.cpp.o: ../src/Evalue.h
 src/CMakeFiles/tac_core.dir/Evalue.cpp.o: ../src/ScoreMatrix.hpp
 
-src/CMakeFiles/tac_core.dir/RunQuery.cpp.o: ../src/Constants.h
-src/CMakeFiles/tac_core.dir/RunQuery.cpp.o: ../src/RunQuery.cpp
-
 src/CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o: ../src/ScoreMatrix.cpp
 src/CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o: ../src/ScoreMatrix.hpp
 

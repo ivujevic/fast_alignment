@@ -8,7 +8,6 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/vujevic/TacLast/Tachyon/src/Constants.cpp" "/home/vujevic/TacLast/Tachyon/build/src/CMakeFiles/tac_core.dir/Constants.cpp.o"
   "/home/vujevic/TacLast/Tachyon/src/DatabaseElement.cpp" "/home/vujevic/TacLast/Tachyon/build/src/CMakeFiles/tac_core.dir/DatabaseElement.cpp.o"
   "/home/vujevic/TacLast/Tachyon/src/Evalue.cpp" "/home/vujevic/TacLast/Tachyon/build/src/CMakeFiles/tac_core.dir/Evalue.cpp.o"
-  "/home/vujevic/TacLast/Tachyon/src/RunQuery.cpp" "/home/vujevic/TacLast/Tachyon/build/src/CMakeFiles/tac_core.dir/RunQuery.cpp.o"
   "/home/vujevic/TacLast/Tachyon/src/ScoreMatrix.cpp" "/home/vujevic/TacLast/Tachyon/build/src/CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o"
   "/home/vujevic/TacLast/Tachyon/src/Seg.cpp" "/home/vujevic/TacLast/Tachyon/build/src/CMakeFiles/tac_core.dir/Seg.cpp.o"
   "/home/vujevic/TacLast/Tachyon/src/alignment.cpp" "/home/vujevic/TacLast/Tachyon/build/src/CMakeFiles/tac_core.dir/alignment.cpp.o"

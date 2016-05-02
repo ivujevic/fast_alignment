@@ -112,20 +112,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-src/CMakeFiles/runquery.dir/rule:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/runquery.dir/rule
-.PHONY : src/CMakeFiles/runquery.dir/rule
-
-# Convenience name for target.
-runquery: src/CMakeFiles/runquery.dir/rule
-.PHONY : runquery
-
-# fast build rule for target.
-runquery/fast:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/runquery.dir/build.make src/CMakeFiles/runquery.dir/build
-.PHONY : runquery/fast
-
-# Convenience name for target.
 src/CMakeFiles/tac_core.dir/rule:
 	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/tac_core.dir/rule
 .PHONY : src/CMakeFiles/tac_core.dir/rule
@@ -248,33 +234,6 @@ Evalue.s: Evalue.cpp.s
 Evalue.cpp.s:
 	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/Evalue.cpp.s
 .PHONY : Evalue.cpp.s
-
-RunQuery.o: RunQuery.cpp.o
-.PHONY : RunQuery.o
-
-# target to build an object file
-RunQuery.cpp.o:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/runquery.dir/build.make src/CMakeFiles/runquery.dir/RunQuery.cpp.o
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/RunQuery.cpp.o
-.PHONY : RunQuery.cpp.o
-
-RunQuery.i: RunQuery.cpp.i
-.PHONY : RunQuery.i
-
-# target to preprocess a source file
-RunQuery.cpp.i:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/runquery.dir/build.make src/CMakeFiles/runquery.dir/RunQuery.cpp.i
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/RunQuery.cpp.i
-.PHONY : RunQuery.cpp.i
-
-RunQuery.s: RunQuery.cpp.s
-.PHONY : RunQuery.s
-
-# target to generate assembly for a file
-RunQuery.cpp.s:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/runquery.dir/build.make src/CMakeFiles/runquery.dir/RunQuery.cpp.s
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/RunQuery.cpp.s
-.PHONY : RunQuery.cpp.s
 
 ScoreMatrix.o: ScoreMatrix.cpp.o
 .PHONY : ScoreMatrix.o
@@ -479,7 +438,6 @@ help:
 	@echo "... tac_core"
 	@echo "... test"
 	@echo "... tachyon"
-	@echo "... runquery"
 	@echo "... Base.o"
 	@echo "... Base.i"
 	@echo "... Base.s"
@@ -492,9 +450,6 @@ help:
 	@echo "... Evalue.o"
 	@echo "... Evalue.i"
 	@echo "... Evalue.s"
-	@echo "... RunQuery.o"
-	@echo "... RunQuery.i"
-	@echo "... RunQuery.s"
 	@echo "... ScoreMatrix.o"
 	@echo "... ScoreMatrix.i"
 	@echo "... ScoreMatrix.s"

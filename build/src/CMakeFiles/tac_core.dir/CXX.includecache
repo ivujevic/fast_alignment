@@ -86,20 +86,6 @@ memory
 ScoreMatrix.hpp
 /home/vujevic/TacLast/Tachyon/src/ScoreMatrix.hpp
 
-/home/vujevic/TacLast/Tachyon/src/RunQuery.cpp
-iostream
--
-fstream
--
-string
--
-boost/asio.hpp
--
-Constants.h
-/home/vujevic/TacLast/Tachyon/src/Constants.h
-boost/array.hpp
--
-
 /home/vujevic/TacLast/Tachyon/src/ScoreMatrix.cpp
 ScoreMatrix.hpp
 /home/vujevic/TacLast/Tachyon/src/ScoreMatrix.hpp

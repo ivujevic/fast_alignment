@@ -112,20 +112,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-deps/CMakeFiles/rq_deps.dir/rule:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f CMakeFiles/Makefile2 deps/CMakeFiles/rq_deps.dir/rule
-.PHONY : deps/CMakeFiles/rq_deps.dir/rule
-
-# Convenience name for target.
-rq_deps: deps/CMakeFiles/rq_deps.dir/rule
-.PHONY : rq_deps
-
-# fast build rule for target.
-rq_deps/fast:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f deps/CMakeFiles/rq_deps.dir/build.make deps/CMakeFiles/rq_deps.dir/build
-.PHONY : rq_deps/fast
-
-# Convenience name for target.
 deps/CMakeFiles/tac_deps.dir/rule:
 	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f CMakeFiles/Makefile2 deps/CMakeFiles/tac_deps.dir/rule
 .PHONY : deps/CMakeFiles/tac_deps.dir/rule
@@ -144,7 +130,6 @@ deps.o: deps.cpp.o
 
 # target to build an object file
 deps.cpp.o:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f deps/CMakeFiles/rq_deps.dir/build.make deps/CMakeFiles/rq_deps.dir/deps.cpp.o
 	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f deps/CMakeFiles/tac_deps.dir/build.make deps/CMakeFiles/tac_deps.dir/deps.cpp.o
 .PHONY : deps.cpp.o
 
@@ -153,7 +138,6 @@ deps.i: deps.cpp.i
 
 # target to preprocess a source file
 deps.cpp.i:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f deps/CMakeFiles/rq_deps.dir/build.make deps/CMakeFiles/rq_deps.dir/deps.cpp.i
 	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f deps/CMakeFiles/tac_deps.dir/build.make deps/CMakeFiles/tac_deps.dir/deps.cpp.i
 .PHONY : deps.cpp.i
 
@@ -162,7 +146,6 @@ deps.s: deps.cpp.s
 
 # target to generate assembly for a file
 deps.cpp.s:
-	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f deps/CMakeFiles/rq_deps.dir/build.make deps/CMakeFiles/rq_deps.dir/deps.cpp.s
 	cd /home/vujevic/TacLast/Tachyon/build && $(MAKE) -f deps/CMakeFiles/tac_deps.dir/build.make deps/CMakeFiles/tac_deps.dir/deps.cpp.s
 .PHONY : deps.cpp.s
 
@@ -176,7 +159,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... tac_deps"
-	@echo "... rq_deps"
 	@echo "... deps.o"
 	@echo "... deps.i"
 	@echo "... deps.s"

@@ -11,9 +11,5 @@ add_library(tac_deps deps.cpp)
 target_include_directories(tac_deps SYSTEM INTERFACE
         ${Boost_INCLUDE_DIRS})
 
-add_library(rq_deps deps.cpp)
-target_include_directories(rq_deps SYSTEM INTERFACE
-        ${Boost_INCLUDE_DIRS})
 
 target_link_libraries(tac_deps PUBLIC ${Boost_LIBRARIES})
-target_link_libraries(rq_deps PUBLIC ${Boost_LIBRARIES})

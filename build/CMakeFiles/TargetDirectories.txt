@@ -1,5 +1,3 @@
 /home/vujevic/TacLast/Tachyon/build/src/CMakeFiles/tac_core.dir
 /home/vujevic/TacLast/Tachyon/build/src/CMakeFiles/tachyon.dir
 /home/vujevic/TacLast/Tachyon/build/deps/CMakeFiles/tac_deps.dir
-/home/vujevic/TacLast/Tachyon/build/deps/CMakeFiles/rq_deps.dir
-/home/vujevic/TacLast/Tachyon/build/src/CMakeFiles/runquery.dir

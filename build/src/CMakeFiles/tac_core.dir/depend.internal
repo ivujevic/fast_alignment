@@ -18,9 +18,6 @@ src/CMakeFiles/tac_core.dir/Evalue.cpp.o
  /home/vujevic/TacLast/Tachyon/src/Evalue.cpp
  /home/vujevic/TacLast/Tachyon/src/Evalue.h
  /home/vujevic/TacLast/Tachyon/src/ScoreMatrix.hpp
-src/CMakeFiles/tac_core.dir/RunQuery.cpp.o
- /home/vujevic/TacLast/Tachyon/src/Constants.h
- /home/vujevic/TacLast/Tachyon/src/RunQuery.cpp
 src/CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o
  /home/vujevic/TacLast/Tachyon/src/ScoreMatrix.cpp
  /home/vujevic/TacLast/Tachyon/src/ScoreMatrix.hpp

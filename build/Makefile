@@ -112,19 +112,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named rq_deps
-
-# Build rule for target.
-rq_deps: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 rq_deps
-.PHONY : rq_deps
-
-# fast build rule for target.
-rq_deps/fast:
-	$(MAKE) -f deps/CMakeFiles/rq_deps.dir/build.make deps/CMakeFiles/rq_deps.dir/build
-.PHONY : rq_deps/fast
-
-#=============================================================================
 # Target rules for targets named tac_deps
 
 # Build rule for target.
@@ -136,19 +123,6 @@ tac_deps: cmake_check_build_system
 tac_deps/fast:
 	$(MAKE) -f deps/CMakeFiles/tac_deps.dir/build.make deps/CMakeFiles/tac_deps.dir/build
 .PHONY : tac_deps/fast
-
-#=============================================================================
-# Target rules for targets named runquery
-
-# Build rule for target.
-runquery: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 runquery
-.PHONY : runquery
-
-# fast build rule for target.
-runquery/fast:
-	$(MAKE) -f src/CMakeFiles/runquery.dir/build.make src/CMakeFiles/runquery.dir/build
-.PHONY : runquery/fast
 
 #=============================================================================
 # Target rules for targets named tac_core
@@ -186,10 +160,8 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... tac_deps"
-	@echo "... rq_deps"
 	@echo "... tac_core"
 	@echo "... tachyon"
-	@echo "... runquery"
 .PHONY : help
 
 

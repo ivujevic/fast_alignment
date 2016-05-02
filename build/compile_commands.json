@@ -1,18 +1,8 @@
 [
 {
   "directory": "/home/vujevic/TacLast/Tachyon/build/deps",
-  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra 						-Wno-sign-compare -Wno-return-type -fno-strict-aliasing -O3 -DNDEBUG   -o CMakeFiles/rq_deps.dir/deps.cpp.o -c /home/vujevic/TacLast/Tachyon/deps/deps.cpp",
-  "file": "/home/vujevic/TacLast/Tachyon/deps/deps.cpp"
-},
-{
-  "directory": "/home/vujevic/TacLast/Tachyon/build/deps",
   "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra 						-Wno-sign-compare -Wno-return-type -fno-strict-aliasing -O3 -DNDEBUG   -o CMakeFiles/tac_deps.dir/deps.cpp.o -c /home/vujevic/TacLast/Tachyon/deps/deps.cpp",
   "file": "/home/vujevic/TacLast/Tachyon/deps/deps.cpp"
-},
-{
-  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
-  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra 						-Wno-sign-compare -Wno-return-type -fno-strict-aliasing -O3 -DNDEBUG   -o CMakeFiles/runquery.dir/RunQuery.cpp.o -c /home/vujevic/TacLast/Tachyon/src/RunQuery.cpp",
-  "file": "/home/vujevic/TacLast/Tachyon/src/RunQuery.cpp"
 },
 {
   "directory": "/home/vujevic/TacLast/Tachyon/build/src",
@@ -38,11 +28,6 @@
   "directory": "/home/vujevic/TacLast/Tachyon/build/src",
   "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra 						-Wno-sign-compare -Wno-return-type -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/opal.cpp.o -c /home/vujevic/TacLast/Tachyon/src/opal.cpp",
   "file": "/home/vujevic/TacLast/Tachyon/src/opal.cpp"
-},
-{
-  "directory": "/home/vujevic/TacLast/Tachyon/build/src",
-  "command": "/usr/bin/c++     -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra 						-Wno-sign-compare -Wno-return-type -fno-strict-aliasing -O3 -DNDEBUG -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_SOURCE_DIR} -I/home/vujevic/TacLast/Tachyon/src/{CMAKE_CURRENT_BINARY_DIR}    -o CMakeFiles/tac_core.dir/RunQuery.cpp.o -c /home/vujevic/TacLast/Tachyon/src/RunQuery.cpp",
-  "file": "/home/vujevic/TacLast/Tachyon/src/RunQuery.cpp"
 },
 {
   "directory": "/home/vujevic/TacLast/Tachyon/build/src",

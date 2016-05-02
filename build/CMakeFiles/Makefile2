@@ -56,12 +56,10 @@ CMAKE_BINARY_DIR = /home/vujevic/TacLast/Tachyon/build
 # Directory level rules for directory deps
 
 # Convenience name for "all" pass in the directory.
-deps/all: deps/CMakeFiles/rq_deps.dir/all
 deps/all: deps/CMakeFiles/tac_deps.dir/all
 .PHONY : deps/all
 
 # Convenience name for "clean" pass in the directory.
-deps/clean: deps/CMakeFiles/rq_deps.dir/clean
 deps/clean: deps/CMakeFiles/tac_deps.dir/clean
 .PHONY : deps/clean
 
@@ -70,48 +68,13 @@ deps/preinstall:
 .PHONY : deps/preinstall
 
 #=============================================================================
-# Target rules for target deps/CMakeFiles/rq_deps.dir
-
-# All Build rule for target.
-deps/CMakeFiles/rq_deps.dir/all:
-	$(MAKE) -f deps/CMakeFiles/rq_deps.dir/build.make deps/CMakeFiles/rq_deps.dir/depend
-	$(MAKE) -f deps/CMakeFiles/rq_deps.dir/build.make deps/CMakeFiles/rq_deps.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles  1
-	@echo "Built target rq_deps"
-.PHONY : deps/CMakeFiles/rq_deps.dir/all
-
-# Include target in all.
-all: deps/CMakeFiles/rq_deps.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-deps/CMakeFiles/rq_deps.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/vujevic/TacLast/Tachyon/build/CMakeFiles 1
-	$(MAKE) -f CMakeFiles/Makefile2 deps/CMakeFiles/rq_deps.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/vujevic/TacLast/Tachyon/build/CMakeFiles 0
-.PHONY : deps/CMakeFiles/rq_deps.dir/rule
-
-# Convenience name for target.
-rq_deps: deps/CMakeFiles/rq_deps.dir/rule
-.PHONY : rq_deps
-
-# clean rule for target.
-deps/CMakeFiles/rq_deps.dir/clean:
-	$(MAKE) -f deps/CMakeFiles/rq_deps.dir/build.make deps/CMakeFiles/rq_deps.dir/clean
-.PHONY : deps/CMakeFiles/rq_deps.dir/clean
-
-# clean rule for target.
-clean: deps/CMakeFiles/rq_deps.dir/clean
-.PHONY : clean
-
-#=============================================================================
 # Target rules for target deps/CMakeFiles/tac_deps.dir
 
 # All Build rule for target.
 deps/CMakeFiles/tac_deps.dir/all:
 	$(MAKE) -f deps/CMakeFiles/tac_deps.dir/build.make deps/CMakeFiles/tac_deps.dir/depend
 	$(MAKE) -f deps/CMakeFiles/tac_deps.dir/build.make deps/CMakeFiles/tac_deps.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles  15
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles  12
 	@echo "Built target tac_deps"
 .PHONY : deps/CMakeFiles/tac_deps.dir/all
 
@@ -143,13 +106,11 @@ clean: deps/CMakeFiles/tac_deps.dir/clean
 # Directory level rules for directory src
 
 # Convenience name for "all" pass in the directory.
-src/all: src/CMakeFiles/runquery.dir/all
 src/all: src/CMakeFiles/tac_core.dir/all
 src/all: src/CMakeFiles/tachyon.dir/all
 .PHONY : src/all
 
 # Convenience name for "clean" pass in the directory.
-src/clean: src/CMakeFiles/runquery.dir/clean
 src/clean: src/CMakeFiles/tac_core.dir/clean
 src/clean: src/CMakeFiles/tachyon.dir/clean
 .PHONY : src/clean
@@ -159,48 +120,13 @@ src/preinstall:
 .PHONY : src/preinstall
 
 #=============================================================================
-# Target rules for target src/CMakeFiles/runquery.dir
-
-# All Build rule for target.
-src/CMakeFiles/runquery.dir/all: deps/CMakeFiles/rq_deps.dir/all
-	$(MAKE) -f src/CMakeFiles/runquery.dir/build.make src/CMakeFiles/runquery.dir/depend
-	$(MAKE) -f src/CMakeFiles/runquery.dir/build.make src/CMakeFiles/runquery.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles  2
-	@echo "Built target runquery"
-.PHONY : src/CMakeFiles/runquery.dir/all
-
-# Include target in all.
-all: src/CMakeFiles/runquery.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-src/CMakeFiles/runquery.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/vujevic/TacLast/Tachyon/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/runquery.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/vujevic/TacLast/Tachyon/build/CMakeFiles 0
-.PHONY : src/CMakeFiles/runquery.dir/rule
-
-# Convenience name for target.
-runquery: src/CMakeFiles/runquery.dir/rule
-.PHONY : runquery
-
-# clean rule for target.
-src/CMakeFiles/runquery.dir/clean:
-	$(MAKE) -f src/CMakeFiles/runquery.dir/build.make src/CMakeFiles/runquery.dir/clean
-.PHONY : src/CMakeFiles/runquery.dir/clean
-
-# clean rule for target.
-clean: src/CMakeFiles/runquery.dir/clean
-.PHONY : clean
-
-#=============================================================================
 # Target rules for target src/CMakeFiles/tac_core.dir
 
 # All Build rule for target.
 src/CMakeFiles/tac_core.dir/all: deps/CMakeFiles/tac_deps.dir/all
 	$(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/depend
 	$(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles  3 4 5 6 7 8 9 10 11 12 13 14
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles  1 2 3 4 5 6 7 8 9 10 11
 	@echo "Built target tac_core"
 .PHONY : src/CMakeFiles/tac_core.dir/all
 
@@ -210,7 +136,7 @@ all: src/CMakeFiles/tac_core.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/tac_core.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/vujevic/TacLast/Tachyon/build/CMakeFiles 13
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/vujevic/TacLast/Tachyon/build/CMakeFiles 12
 	$(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/tac_core.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/vujevic/TacLast/Tachyon/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/tac_core.dir/rule
@@ -232,11 +158,11 @@ clean: src/CMakeFiles/tac_core.dir/clean
 # Target rules for target src/CMakeFiles/tachyon.dir
 
 # All Build rule for target.
-src/CMakeFiles/tachyon.dir/all: deps/CMakeFiles/tac_deps.dir/all
 src/CMakeFiles/tachyon.dir/all: src/CMakeFiles/tac_core.dir/all
+src/CMakeFiles/tachyon.dir/all: deps/CMakeFiles/tac_deps.dir/all
 	$(MAKE) -f src/CMakeFiles/tachyon.dir/build.make src/CMakeFiles/tachyon.dir/depend
 	$(MAKE) -f src/CMakeFiles/tachyon.dir/build.make src/CMakeFiles/tachyon.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles  16
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles  13
 	@echo "Built target tachyon"
 .PHONY : src/CMakeFiles/tachyon.dir/all
 
@@ -246,7 +172,7 @@ all: src/CMakeFiles/tachyon.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/tachyon.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/vujevic/TacLast/Tachyon/build/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/vujevic/TacLast/Tachyon/build/CMakeFiles 13
 	$(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/tachyon.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/vujevic/TacLast/Tachyon/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/tachyon.dir/rule

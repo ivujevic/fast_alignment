@@ -164,32 +164,9 @@ src/CMakeFiles/tac_core.dir/opal.cpp.o.provides: src/CMakeFiles/tac_core.dir/opa
 
 src/CMakeFiles/tac_core.dir/opal.cpp.o.provides.build: src/CMakeFiles/tac_core.dir/opal.cpp.o
 
-src/CMakeFiles/tac_core.dir/RunQuery.cpp.o: src/CMakeFiles/tac_core.dir/flags.make
-src/CMakeFiles/tac_core.dir/RunQuery.cpp.o: ../src/RunQuery.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles $(CMAKE_PROGRESS_6)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/tac_core.dir/RunQuery.cpp.o"
-	cd /home/vujevic/TacLast/Tachyon/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tac_core.dir/RunQuery.cpp.o -c /home/vujevic/TacLast/Tachyon/src/RunQuery.cpp
-
-src/CMakeFiles/tac_core.dir/RunQuery.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tac_core.dir/RunQuery.cpp.i"
-	cd /home/vujevic/TacLast/Tachyon/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/vujevic/TacLast/Tachyon/src/RunQuery.cpp > CMakeFiles/tac_core.dir/RunQuery.cpp.i
-
-src/CMakeFiles/tac_core.dir/RunQuery.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tac_core.dir/RunQuery.cpp.s"
-	cd /home/vujevic/TacLast/Tachyon/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/vujevic/TacLast/Tachyon/src/RunQuery.cpp -o CMakeFiles/tac_core.dir/RunQuery.cpp.s
-
-src/CMakeFiles/tac_core.dir/RunQuery.cpp.o.requires:
-.PHONY : src/CMakeFiles/tac_core.dir/RunQuery.cpp.o.requires
-
-src/CMakeFiles/tac_core.dir/RunQuery.cpp.o.provides: src/CMakeFiles/tac_core.dir/RunQuery.cpp.o.requires
-	$(MAKE) -f src/CMakeFiles/tac_core.dir/build.make src/CMakeFiles/tac_core.dir/RunQuery.cpp.o.provides.build
-.PHONY : src/CMakeFiles/tac_core.dir/RunQuery.cpp.o.provides
-
-src/CMakeFiles/tac_core.dir/RunQuery.cpp.o.provides.build: src/CMakeFiles/tac_core.dir/RunQuery.cpp.o
-
 src/CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o: src/CMakeFiles/tac_core.dir/flags.make
 src/CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o: ../src/ScoreMatrix.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o"
 	cd /home/vujevic/TacLast/Tachyon/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o -c /home/vujevic/TacLast/Tachyon/src/ScoreMatrix.cpp
 
@@ -212,7 +189,7 @@ src/CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o.provides.build: src/CMakeFiles/tac
 
 src/CMakeFiles/tac_core.dir/Seg.cpp.o: src/CMakeFiles/tac_core.dir/flags.make
 src/CMakeFiles/tac_core.dir/Seg.cpp.o: ../src/Seg.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/tac_core.dir/Seg.cpp.o"
 	cd /home/vujevic/TacLast/Tachyon/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tac_core.dir/Seg.cpp.o -c /home/vujevic/TacLast/Tachyon/src/Seg.cpp
 
@@ -235,7 +212,7 @@ src/CMakeFiles/tac_core.dir/Seg.cpp.o.provides.build: src/CMakeFiles/tac_core.di
 
 src/CMakeFiles/tac_core.dir/tachyon.cpp.o: src/CMakeFiles/tac_core.dir/flags.make
 src/CMakeFiles/tac_core.dir/tachyon.cpp.o: ../src/tachyon.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles $(CMAKE_PROGRESS_9)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/tac_core.dir/tachyon.cpp.o"
 	cd /home/vujevic/TacLast/Tachyon/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tac_core.dir/tachyon.cpp.o -c /home/vujevic/TacLast/Tachyon/src/tachyon.cpp
 
@@ -258,7 +235,7 @@ src/CMakeFiles/tac_core.dir/tachyon.cpp.o.provides.build: src/CMakeFiles/tac_cor
 
 src/CMakeFiles/tac_core.dir/util.cpp.o: src/CMakeFiles/tac_core.dir/flags.make
 src/CMakeFiles/tac_core.dir/util.cpp.o: ../src/util.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles $(CMAKE_PROGRESS_10)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles $(CMAKE_PROGRESS_9)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/tac_core.dir/util.cpp.o"
 	cd /home/vujevic/TacLast/Tachyon/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tac_core.dir/util.cpp.o -c /home/vujevic/TacLast/Tachyon/src/util.cpp
 
@@ -281,7 +258,7 @@ src/CMakeFiles/tac_core.dir/util.cpp.o.provides.build: src/CMakeFiles/tac_core.d
 
 src/CMakeFiles/tac_core.dir/alignment.cpp.o: src/CMakeFiles/tac_core.dir/flags.make
 src/CMakeFiles/tac_core.dir/alignment.cpp.o: ../src/alignment.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles $(CMAKE_PROGRESS_11)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles $(CMAKE_PROGRESS_10)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/tac_core.dir/alignment.cpp.o"
 	cd /home/vujevic/TacLast/Tachyon/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tac_core.dir/alignment.cpp.o -c /home/vujevic/TacLast/Tachyon/src/alignment.cpp
 
@@ -304,7 +281,7 @@ src/CMakeFiles/tac_core.dir/alignment.cpp.o.provides.build: src/CMakeFiles/tac_c
 
 src/CMakeFiles/tac_core.dir/writer.cpp.o: src/CMakeFiles/tac_core.dir/flags.make
 src/CMakeFiles/tac_core.dir/writer.cpp.o: ../src/writer.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles $(CMAKE_PROGRESS_12)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles $(CMAKE_PROGRESS_11)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/tac_core.dir/writer.cpp.o"
 	cd /home/vujevic/TacLast/Tachyon/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/tac_core.dir/writer.cpp.o -c /home/vujevic/TacLast/Tachyon/src/writer.cpp
 
@@ -332,7 +309,6 @@ tac_core_OBJECTS = \
 "CMakeFiles/tac_core.dir/DatabaseElement.cpp.o" \
 "CMakeFiles/tac_core.dir/Evalue.cpp.o" \
 "CMakeFiles/tac_core.dir/opal.cpp.o" \
-"CMakeFiles/tac_core.dir/RunQuery.cpp.o" \
 "CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o" \
 "CMakeFiles/tac_core.dir/Seg.cpp.o" \
 "CMakeFiles/tac_core.dir/tachyon.cpp.o" \
@@ -348,7 +324,6 @@ src/libtac_core.a: src/CMakeFiles/tac_core.dir/Constants.cpp.o
 src/libtac_core.a: src/CMakeFiles/tac_core.dir/DatabaseElement.cpp.o
 src/libtac_core.a: src/CMakeFiles/tac_core.dir/Evalue.cpp.o
 src/libtac_core.a: src/CMakeFiles/tac_core.dir/opal.cpp.o
-src/libtac_core.a: src/CMakeFiles/tac_core.dir/RunQuery.cpp.o
 src/libtac_core.a: src/CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o
 src/libtac_core.a: src/CMakeFiles/tac_core.dir/Seg.cpp.o
 src/libtac_core.a: src/CMakeFiles/tac_core.dir/tachyon.cpp.o
@@ -370,7 +345,6 @@ src/CMakeFiles/tac_core.dir/requires: src/CMakeFiles/tac_core.dir/Constants.cpp.
 src/CMakeFiles/tac_core.dir/requires: src/CMakeFiles/tac_core.dir/DatabaseElement.cpp.o.requires
 src/CMakeFiles/tac_core.dir/requires: src/CMakeFiles/tac_core.dir/Evalue.cpp.o.requires
 src/CMakeFiles/tac_core.dir/requires: src/CMakeFiles/tac_core.dir/opal.cpp.o.requires
-src/CMakeFiles/tac_core.dir/requires: src/CMakeFiles/tac_core.dir/RunQuery.cpp.o.requires
 src/CMakeFiles/tac_core.dir/requires: src/CMakeFiles/tac_core.dir/ScoreMatrix.cpp.o.requires
 src/CMakeFiles/tac_core.dir/requires: src/CMakeFiles/tac_core.dir/Seg.cpp.o.requires
 src/CMakeFiles/tac_core.dir/requires: src/CMakeFiles/tac_core.dir/tachyon.cpp.o.requires
