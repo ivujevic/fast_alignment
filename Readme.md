@@ -44,6 +44,35 @@ This commands determine the mode in which you want to run this app
 ###General options
 This options is necessary in all modules.
 
-| Option  |  Short | Default | Description |
-| --------|--------| --------| ------------|
-|--threads| || || ||
+| Option  |  Short | Default | Description       |
+| --------|--------| --------| ------------------|
+|--threads| -p     |   8     | number of threads |
+|--db     | -d     |         | path to reference database |
+
+###Makedb options
+Use this options when you want to create reduced database
+
+| Option  |  Short | Default | Description       |
+| --------|--------| --------| ------------------|
+|--read   | -r     |         | path to reduced database |
+
+###Aligner options
+Use this options when you want to align queries against reduced database
+
+| Option        |  Short | Default      | Description       |
+| --------      |--------| --------     | ------------------|
+|--in           | -i     |              | path to reduced database |
+|--query        | -q     |              | path to query file |
+|--gapopen      | -g     |     10       | gap open penalty |
+|--gapext       | -e     |     1        | gap extend penalty |
+|--matrix       | -m     | BLOSUM_62    | score matrix |
+|--out          | -o     |              | path to output file |
+|--out-format   |        |      bm9     | path to reduced database |
+|--evalue       |   -v   |   0.001      | maximum e-value |
+|--max-aligns   | -a     |   10         | maximum number of outputs per query |
+|--algorithm    |   -A   |      SW        | algorithm used for alignment
+                                                SW - Smith|
+
+
+
+
