@@ -17,50 +17,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c7498ebc-aadb-4aa3-b8cb-241b2c69968f" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/Scorer.cpp.o" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/SeqIndex.cpp.o" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Scorer.cpp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Scorer.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/SeqIndex.cpp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/SeqIndex.h" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/Base.cpp.o" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/Base.cpp.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/tachyon.cpp.o" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/tachyon.cpp.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/writer.cpp.o" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/writer.cpp.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tachyon.dir/main.cpp.o" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tachyon.dir/main.cpp.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/libtac_core.a" afterPath="$PROJECT_DIR$/build/src/libtac_core.a" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/tachyon" afterPath="$PROJECT_DIR$/build/tachyon" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Tachyon.iml" afterPath="$PROJECT_DIR$/.idea/Tachyon.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Readme.md" afterPath="$PROJECT_DIR$/Readme.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/CMakeFiles/Makefile.cmake" afterPath="$PROJECT_DIR$/build/CMakeFiles/Makefile.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/CMakeFiles/Makefile2" afterPath="$PROJECT_DIR$/build/CMakeFiles/Makefile2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/CMakeFiles/progress.marks" afterPath="$PROJECT_DIR$/build/CMakeFiles/progress.marks" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/compile_commands.json" afterPath="$PROJECT_DIR$/build/compile_commands.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/deps/CMakeFiles/tac_deps.dir/progress.make" afterPath="$PROJECT_DIR$/build/deps/CMakeFiles/tac_deps.dir/progress.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/-lpthread" afterPath="$PROJECT_DIR$/build/src/-lpthread" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/progress.marks" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/progress.marks" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/CXX.includecache" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/CXX.includecache" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/DependInfo.cmake" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/DependInfo.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/build.make" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/build.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/cmake_clean.cmake" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/cmake_clean.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/depend.internal" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/depend.internal" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/depend.make" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/depend.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/link.txt" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/link.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/progress.make" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tac_core.dir/progress.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tachyon.dir/CXX.includecache" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tachyon.dir/CXX.includecache" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tachyon.dir/depend.internal" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tachyon.dir/depend.internal" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tachyon.dir/depend.make" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tachyon.dir/depend.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/CMakeFiles/tachyon.dir/progress.make" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/tachyon.dir/progress.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/src/Makefile" afterPath="$PROJECT_DIR$/build/src/Makefile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Base.cpp" afterPath="$PROJECT_DIR$/src/Base.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Base.h" afterPath="$PROJECT_DIR$/src/Base.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CMakeLists.txt" afterPath="$PROJECT_DIR$/src/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Evalue.cpp" afterPath="$PROJECT_DIR$/src/Evalue.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Evalue.h" afterPath="$PROJECT_DIR$/src/Evalue.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.cpp" afterPath="$PROJECT_DIR$/src/main.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tachyon.h" afterPath="$PROJECT_DIR$/src/tachyon.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/writer.cpp" afterPath="$PROJECT_DIR$/src/writer.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/writer.hpp" afterPath="$PROJECT_DIR$/src/writer.hpp" />
     </list>
     <ignored path="Tachyon.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -85,8 +42,8 @@
         <entry file="file://$PROJECT_DIR$/Readme.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="FIRST">
-              <first_editor relative-caret-position="702">
-                <caret line="39" column="90" selection-start-line="39" selection-start-column="90" selection-end-line="39" selection-end-column="90" />
+              <first_editor relative-caret-position="684">
+                <caret line="38" column="17" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -903,8 +860,8 @@
       </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
-          <first_editor relative-caret-position="702">
-            <caret line="39" column="90" selection-start-line="39" selection-start-column="90" selection-end-line="39" selection-end-column="90" />
+          <first_editor relative-caret-position="684">
+            <caret line="38" column="17" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
             <folding />
           </first_editor>
           <second_editor />
