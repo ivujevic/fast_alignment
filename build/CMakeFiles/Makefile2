@@ -232,8 +232,8 @@ clean: src/CMakeFiles/tac_core.dir/clean
 # Target rules for target src/CMakeFiles/tachyon.dir
 
 # All Build rule for target.
-src/CMakeFiles/tachyon.dir/all: src/CMakeFiles/tac_core.dir/all
 src/CMakeFiles/tachyon.dir/all: deps/CMakeFiles/tac_deps.dir/all
+src/CMakeFiles/tachyon.dir/all: src/CMakeFiles/tac_core.dir/all
 	$(MAKE) -f src/CMakeFiles/tachyon.dir/build.make src/CMakeFiles/tachyon.dir/depend
 	$(MAKE) -f src/CMakeFiles/tachyon.dir/build.make src/CMakeFiles/tachyon.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/vujevic/TacLast/Tachyon/build/CMakeFiles  16

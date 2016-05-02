@@ -10,21 +10,19 @@
 #include "writer.hpp"
 
 
-double max_evalue = 0.001;
-int gap_open = 10;
-int gap_extend = 1;
-
-
 using namespace std;
 
 
-void printHelp(boost::program_options::options_description params);
+void printHelp(boost::program_options::options_description general,
+               boost::program_options::options_description makedb,
+               boost::program_options::options_description aligner);
 
 OutputType strToOutputType(const std::string& str);
 
 ScoreMatrixType strToScorerType(const std::string& str);
 
 AlignmentType strToAlignmentType(const std::string& str);
+Command strToCommand(const std::string& str);
 
 int main(int argc, const char *argv[]) {
 
@@ -45,7 +43,7 @@ int main(int argc, const char *argv[]) {
 
 	po::options_description makedb("Makedb options");
 	makedb.add_options()
-			("red,r", po::value<string>(&reduced_database), "path to reduced database");
+			("red,r", po::value<string>(&reduced_database), "path to reduced database\n");
 
 	po::options_description aligner("Aligner options");
 
@@ -82,80 +80,76 @@ int main(int argc, const char *argv[]) {
 					"HW - semiglobal alignment\n"
 					"OV - overlap alignment\n");
 
-	int port;
-	po::options_description server("Server options");
-	server.add_options()("port",po::value<int>(&port)->default_value(9341), "port, default=9341");
 
 	po::options_description hidden("Hidden options");
 	hidden.add_options()("command", po::value<string>(&command_));
 
 	po::options_description all("Command line options");
 
-	all.add(general).add(hidden).add(makedb).add(aligner).add(server);
+	all.add(general).add(hidden).add(makedb).add(aligner);
 
 	po::positional_options_description positional;
 	positional.add("command", -1);
 
 	po::variables_map vm;
 
-	po::store(
-			po::command_line_parser(argc, argv).options(all).positional(positional).run(), vm);
-	po::notify(vm);
+	try{
+		po::store(
+				po::command_line_parser(argc, argv).options(all).positional(positional).run(), vm);
+		po::notify(vm);
 
 
-	if (vm.count("help")) {
-		printHelp(all);
-	}
-
-	if (command_ == "makedb") {
-		command = Command::makedb;
-	} else if (command_ == "blastp") {
-		command = Command::blastp;
-	} else if (command_ == "blastn") {
-		command = Command::blastn;
-	} else if(command_ == "server") {
-		command = Command::server;
-	}
-	ScoreMatrixType scorer_type = strToScorerType(matrix);
-	ScoreMatrix scorer(scorer_type,gap_open, gap_extend);
-
-	AlignmentType  align_type = strToAlignmentType(algorithm);
-	Type input_type;
-
-	omp_set_dynamic(0);
-	omp_set_num_threads(threads);
-
-	Base base(database_path.c_str(), reduced_database.c_str());
-	if(command == Command::makedb) {
-		base.read();
-		base.make_indexes();
-	}else if(command !=Command::server) {
-		base.dump_in_memory();
-		EValue evalue_params(base.database_size(), scorer);
-		ChainSet queries;
-		readFastaFile(queries_path.c_str(), queries, 0);
-		int query_size = queries.size();
-
-		OutSet results;
-		results.clear();
-		results.resize(query_size);
-
-		if(command == Command::blastp) input_type = Type::PROTEINS;
-		else if(command == Command::blastn) input_type = Type::NUCLEOTIDES;
-
-		Tachyon tachyon(base);
-		tachyon.search(queries, input_type, results, align_type, max_evalue, max_alignments, evalue_params, scorer);
-
-		OutputType  out_format = strToOutputType(out_format_string);
-		Writer writer (out_path, out_format, scorer);
-
-
-		for (const auto &it: results) {
-			writer.write_alignments(it, queries, base);
+		if (vm.count("help")) {
+			printHelp(general,makedb,aligner);
+			exit(-1);
 		}
-	}else if(command == Command::server) {
 
+		command = strToCommand(command_);
+
+		ScoreMatrixType scorer_type = strToScorerType(matrix);
+		ScoreMatrix scorer(scorer_type,gap_open, gap_extend);
+
+		AlignmentType  align_type = strToAlignmentType(algorithm);
+		Type input_type;
+
+		omp_set_dynamic(0);
+		omp_set_num_threads(threads);
+
+		Base base(database_path.c_str(), reduced_database.c_str());
+		if(command == Command::makedb) {
+			base.read();
+			base.make_indexes();
+		}else {
+			base.dump_in_memory();
+			EValue evalue_params(base.database_size(), scorer);
+			ChainSet queries;
+			readFastaFile(queries_path.c_str(), queries, 0);
+			int query_size = queries.size();
+
+			OutSet results;
+			results.clear();
+			results.resize(query_size);
+
+			if(command == Command::blastp) input_type = Type::PROTEINS;
+			else if(command == Command::blastx) input_type = Type::NUCLEOTIDES;
+
+			Tachyon tachyon(base);
+			tachyon.search(queries, input_type, results, align_type, max_evalue, max_alignments, evalue_params, scorer);
+
+			OutputType  out_format = strToOutputType(out_format_string);
+			Writer writer (out_path, out_format, scorer);
+
+
+			for (const auto &it: results) {
+				writer.write_alignments(it, queries, base);
+			}
+		}
+	}catch(invalid_argument& e) {
+		printf("%s\n",e.what());
+		printHelp(general,makedb,aligner);
+		exit(-1);
 	}
+
 }
 
 OutputType strToOutputType(const std::string& str) {
@@ -166,6 +160,8 @@ OutputType strToOutputType(const std::string& str) {
 		return OutputType::kBm8;
 	} else if (str.compare("bm9") == 0) {
 		return OutputType::kBm9;
+	}else{
+		throw invalid_argument("Unrecognised output format!");
 	}
 
 }
@@ -188,6 +184,8 @@ ScoreMatrixType strToScorerType(const std::string& str) {
 		return ScoreMatrixType::kPam70;
 	} else if (str.compare("PAM_250") == 0) {
 		return ScoreMatrixType::kPam250;
+	}else {
+		throw invalid_argument("Unrecognised matrix!");
 	}
 }
 
@@ -201,19 +199,30 @@ AlignmentType strToAlignmentType(const std::string& str) {
 		return AlignmentType::kOV;
 	} else if (str.compare("SW") == 0) {
 		return AlignmentType::kSW;
+	}else {
+		throw invalid_argument("Unrecognised alignment algorithm!");
 	}
 
 }
 
+Command strToCommand(const std::string& str) {
+	if(str == "makedb") return Command::makedb;
+	else if(str == "blastp") return Command::blastp;
+	else if(str == "blastx") return Command::blastx;
+	else{
+		throw invalid_argument("Unrecognised command!");
+	}
+}
 
-void printHelp(boost::program_options::options_description params) {
+void printHelp(boost::program_options::options_description general,
+               boost::program_options::options_description makedb,
+               boost::program_options::options_description aligner) {
 	cout << endl << "Syntax:" << endl;
 	cout << "  tachyon COMMAND [OPTIONS]" << endl << endl;
 	cout << "Commands:" << endl;
 	cout << "  makedb\tCreate indexes from FASTA file" << endl;
 	cout << "  blastp\tAlign amino acid query sequences against a protein reference database" << endl;
 	cout << "  blastx\tAlign DNA query sequences against a protein reference database" << endl;
-	cout << "  server\tRun demon server and wait for queries" << endl;
 	cout << endl;
-	cout<<params;
+	cout<<general<<endl<<makedb<<aligner<<endl;
 }

@@ -36,7 +36,7 @@ int Tachyon::findInDatabase(DatabaseElement &query, Type type, AlignmentSet &res
 
 				for(int i =0 ; i < q_len; i++) {
 					DatabaseElement db(query.name(),query.name_len(),queries_AA[i],queries_AA[i].length(),query.id());
-					#pragma omp tash shared(in_results)
+					#pragma omp task shared(in_results,evalue_params,scorer)
 					{
 						findInDatabase(db,Type::PROTEINS,in_results[i],align_type,max_evalue,evalue_params,scorer);
 					}
@@ -51,7 +51,8 @@ int Tachyon::findInDatabase(DatabaseElement &query, Type type, AlignmentSet &res
 			}
 		}
 
-		//TODO: Sort
+		//TODO: Group by name and sort
+		sort(results.begin(),results.end(),compareAlignment);
 	}
 
 	vector<pair<long, long>> coded_pentapeptides;
@@ -94,7 +95,6 @@ void Tachyon::filter_hits(unordered_map<long, int> &high_hits, unordered_map<lon
                           std::unordered_set<long> &results,
                           unordered_map<long, vector<pair<long, long>>> &positions,
                           unordered_map<long, vector<pair<long, long>>> &lowPositions) {
-	int count = 0;
 	for (auto &&p : high_hits) {
 		if (p.second >= 3) {
 			auto &v = positions[p.first];
@@ -126,7 +126,6 @@ void Tachyon::filter_hits(unordered_map<long, int> &high_hits, unordered_map<lon
 			}
 		}
 	}
-	count = 0;
 	for (auto &&p : low_hits) {
 		if (p.second >= 2) {
 			auto &v = lowPositions[p.first];

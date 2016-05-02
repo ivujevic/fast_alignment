@@ -3,7 +3,10 @@
 ### Build requirements
 
 One needs `GNU make`, `Cmake 3+`, `Boost` libraries. If you don't know if you have them or
-not just type `make packages` and it will prompt you for install.
+not just type `make packages` and it will prompt you for install. If you do not have permissions
+to install packages or want to put them in other folder (this required installed `boost` in the default include directory)
+you can install it and than uncomment first four lines in `deps/CMakeLists.txt`. In lines 3 and 4 you need
+to set path to installed boost directories.
 
 Built it with Boost 1.60 but it should work with older versions if interface
 didn't change.
@@ -25,11 +28,11 @@ it will create reduced database (required by algorithm) in the current directory
 You can run alignment task with the following commands:
 
 `$ tachyon blastp -d nr.fa -i reduced_nr -q queries.fa -o results`
-if you want to align protein sequences against nr database, or
+if you want to align protein sequences against a protein reference database, or
 
 `$ tachyon blastx -d nr.fa -i reduced_nr -q queries.fa -o results`
 
-if you want to align DNA sequences against nr database.
+if you want to align DNA sequences against a protein reference database.
 
 ##Commands
 

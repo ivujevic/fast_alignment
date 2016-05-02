@@ -22,4 +22,4 @@ extern std::vector<std::string> split(std::string& text, char delim);
 extern void get_codes(const std::string& sequence, std::vector<long>& results);
 extern void get_codes(const std::string& sequence, std::set<long>& results);
 extern void get_codes(const std::string& sequence, std::vector<std::pair<long,long>>& results);
-typedef enum {makedb, blastp, blastn,server} Command;
+typedef enum {makedb, blastp, blastx} Command;

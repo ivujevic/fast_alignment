@@ -1,4 +1,3 @@
-#pragma once
 #include "Base.h"
 #include<iostream>
 #include<fstream>
@@ -15,7 +14,6 @@ using namespace std;
 using namespace boost::serialization;
 
 void Base::count(DatabaseElement& elem, std::unordered_map<int, int>& counters) {
-	int len = elem.sequence().length();
 	vector<long> results;
 
 	Seg seg = Seg(Type::PROTEINS);
@@ -39,7 +37,6 @@ void Base::count(DatabaseElement& elem, std::unordered_map<int, int>& counters) 
 
 void Base::find_indexes(DatabaseElement& elem, std::unordered_map<int, int>& counters,std::unordered_map<long, vector<pair<long,long>> >& high_map,
                         std::unordered_map<long, vector<pair<long,long>> >& low_map) {
-	int len = elem.sequence().length();
 	vector< pair<long,long> > results;
 	get_codes(elem.sequence(),results);
 
@@ -177,7 +174,7 @@ void Base::writeMaps() {
 bool Base::read() {
 	databaseSize_ = readFastaFile(pathToDatabase,sets,0);
 	if(!databaseSize_) {
-		#pragma critical
+		#pragma omp critical
 		cerr<<"Error: Original database doesn't exist" << endl;
 		exit(-1);
 	}
@@ -185,11 +182,11 @@ bool Base::read() {
 }
 
 
-void Base::read_indexes(std::unordered_map<long, vector<pair<long, long>>> &map) {
+void Base::read_indexes() {
 	std::ifstream out(reduced_database_);
 	if(!out.good()) {
-		#pragma critical
-		cerr<<"Error: Reduce database file doesn't exist" << endl;
+		#pragma omp critical
+		cerr<<"Error: Reduced database file doesn't exist" << endl;
 		exit(-1);
 	}
 	boost::archive::binary_iarchive ia(out);
@@ -206,7 +203,7 @@ bool Base::dump_in_memory() {
 			#pragma omp task
 			read();
 			#pragma omp task
-			read_indexes(high_freq_map);
+			read_indexes();
 		}
 		#pragma omp barrier
 	}

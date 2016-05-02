@@ -29,9 +29,9 @@ public:
 	                                                                                     reduced_database_(path_to_hf) { };
 
 
-	const uint64_t database_size() const{return databaseSize_;}
+	const uint64_t database_size() {return databaseSize_;}
 
-	const DatabaseElement& operator [] (int index) const{
+	const DatabaseElement& operator [] (int index) {
 		return sets[index];
 	}
 
@@ -64,5 +64,5 @@ private:
 
 	void writeMaps();
 
-	void read_indexes(std::unordered_map<long, vector<pair<long, long>>>& map);
+	void read_indexes();
 };

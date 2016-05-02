@@ -74,7 +74,6 @@ uint64_t readFastaFile(const char* file, ChainSet & elements,uint64_t databaseSi
 
 	/* Code taken from SW# (author: Matija Korpar) */
 
-	bool status = false;
 	size_t bytes_read = 0;
 	size_t bytes_over = 0;
 
