@@ -8,8 +8,6 @@ to install packages or want to put them in other folder (this requires installed
 you can install it and than uncomment first four lines in `deps/CMakeLists.txt`. In lines 3 and 4 you need
 to set path to installed boost directories.
 
-Built it with Boost 1.60 but it should work with older versions if interface
-didn't change.
 
 ### How to build?
 
@@ -18,7 +16,7 @@ executables should be present in the directory called `build`. There is executab
 tachyon.
 
 ## Running
-There are three options in which you can run your application. Use `makedb` if you want to set up reduced database. If
+There are three modes in which you can run this application. Use `makedb` if you want to set up reduced database. If
 you run
 
 `$ tachyon makedb -d nr.fa -r reduced_nr`
@@ -45,7 +43,7 @@ This commands determine the mode in which you want to run this app
 | blastx        | Align DNA query against a protein reference database                    |
 
 ###General options
-This options is necessary in all modules.
+This options is necessary in all modes.
 
 | Option  |  Short | Default | Description       |
 | --------|--------| --------| ------------------|
@@ -60,7 +58,7 @@ Use this options when you want to create reduced database
 |--read   | -r     |         | path to reduced database |
 
 ###Aligner options
-Use this options when you want to align queries against reduced database
+Use this options when you want to align query against reduced database
 
 | Option        |  Short | Default      | Description       |
 | --------      |--------| --------     | ------------------|
