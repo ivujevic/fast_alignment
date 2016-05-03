@@ -6,7 +6,8 @@
     compile \
     rebuild \
     test \
-    update
+    update \
+    packages
 
 all: compile
 	@:
@@ -39,4 +40,4 @@ test: build
 	make -C build test
 
 packages:
-	[ -z `dpkg -l | grep libboost-program-options` ] && sudo apt-get install libboost-program-options-dev
+	bash ./deps/install_deps.sh
