@@ -22,4 +22,6 @@ target_link_libraries(tachyon tac_core)
 adjust_xcode_settings(tachyon)
 
 
+add_executable(runquery runquery.cpp)
+target_link_libraries(runquery tac_deps)
 
