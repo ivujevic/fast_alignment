@@ -76,7 +76,7 @@ int main() {
 
 	cout << "Query processing!" << endl;
 	string received_message = "";
-	while(message != "Finished") {
+	while(message =="") {
 		try{
 		size_t len = socket.read_some(boost::asio::buffer(buffer));
 			cout.write(buffer.data(),len);

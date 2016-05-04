@@ -19,12 +19,15 @@ void printHelp(boost::program_options::options_description general,
                boost::program_options::options_description makedb,
                boost::program_options::options_description aligner);
 
-OutputType strToOutputType(const std::string& str);
+OutputType strToOutputType(const std::string &str);
 
-ScoreMatrixType strToScorerType(const std::string& str);
+ScoreMatrixType strToScorerType(const std::string &str);
 
-AlignmentType strToAlignmentType(const std::string& str);
-Command strToCommand(const std::string& str);
+AlignmentType strToAlignmentType(const std::string &str);
+
+Command strToCommand(const std::string &str);
+
+void serverThread(string &settings, tcp::socket* so,int i);
 
 int main(int argc, const char *argv[]) {
 
@@ -39,39 +42,54 @@ int main(int argc, const char *argv[]) {
 
 	long threads;
 	long max_queries;
-	unsigned short port=9341;
+	unsigned short port = 9341;
 	general.add_options()
 			("help,h", "produce help message")
 			("threads,n", po::value<long>(&threads)->default_value(8), "max number of CPU threads per query")
 			("max-query", po::value<long>(&max_queries)->default_value(100), "max number of accepted queries")
 			("in,i", po::value<string>(&reduced_database), "path to reduced database")
-			("port,p", po::value<unsigned  short>(&port)->default_value(9341), "port on which server listening")
+			("port,p", po::value<unsigned short>(&port)->default_value(9341), "port on which server listening")
 			("db,d", po::value<string>(&database_path), "path to original nr file");
 
-	cout<<"Listening on " << port<<endl;
+	cout << "Listening on " << port << endl;
 	boost::asio::io_service io_service;
 
 	tcp::acceptor acceptor(io_service, tcp::endpoint(tcp::v4(), port));
 
 
+	#pragma omp parallel
+	{
+		#pragma omp single
+		{
+			for (int i =0; ;i++) {
+				tcp::socket socket(io_service);
 
+				acceptor.accept(socket);
+				boost::array<char, 512> buffer;
 
-	for(;;) {
-		tcp::socket socket(io_service);
+				boost::system::error_code error;
+				size_t len = socket.read_some(boost::asio::buffer(buffer));
 
-		acceptor.accept(socket);
-		boost::array<char, 128> buffer;
-
-		boost::system::error_code error;
-		size_t len = socket.read_some(boost::asio::buffer(buffer));
-		boost::asio::write(socket, boost::asio::buffer("Finished"));
-		cout<<"Procitao sam " << len<<endl;
-		cout.write(buffer.data(),len);
-		cout<<"Cekam dalje"<<endl;
+				string message;
+				copy(buffer.begin(), buffer.begin() + len, back_inserter(message));
+				#pragma omp task
+				{
+					serverThread(message, &socket,i);
+				}
+				break;
+			}
+		}
 	}
+
+
 }
 
-OutputType strToOutputType(const std::string& str) {
+void serverThread(string &settings, tcp::socket* socket,int i) {
+	//boost::asio::write(socket, boost::asio::buffer("Finished " + to_string(i)));
+
+}
+
+OutputType strToOutputType(const std::string &str) {
 
 	if (str.compare("bm0") == 0) {
 		return OutputType::kBm0;
@@ -79,13 +97,13 @@ OutputType strToOutputType(const std::string& str) {
 		return OutputType::kBm8;
 	} else if (str.compare("bm9") == 0) {
 		return OutputType::kBm9;
-	}else{
+	} else {
 		throw invalid_argument("Unrecognised output format!");
 	}
 
 }
 
-ScoreMatrixType strToScorerType(const std::string& str) {
+ScoreMatrixType strToScorerType(const std::string &str) {
 
 	if (str.compare("BLOSUM_45") == 0) {
 		return ScoreMatrixType::kBlosum45;
@@ -103,12 +121,12 @@ ScoreMatrixType strToScorerType(const std::string& str) {
 		return ScoreMatrixType::kPam70;
 	} else if (str.compare("PAM_250") == 0) {
 		return ScoreMatrixType::kPam250;
-	}else {
+	} else {
 		throw invalid_argument("Unrecognised matrix!");
 	}
 }
 
-AlignmentType strToAlignmentType(const std::string& str) {
+AlignmentType strToAlignmentType(const std::string &str) {
 
 	if (str.compare("NW") == 0) {
 		return AlignmentType::kNW;
@@ -118,17 +136,17 @@ AlignmentType strToAlignmentType(const std::string& str) {
 		return AlignmentType::kOV;
 	} else if (str.compare("SW") == 0) {
 		return AlignmentType::kSW;
-	}else {
+	} else {
 		throw invalid_argument("Unrecognised alignment algorithm!");
 	}
 
 }
 
-Command strToCommand(const std::string& str) {
-	if(str == "makedb") return Command::makedb;
-	else if(str == "blastp") return Command::blastp;
-	else if(str == "blastx") return Command::blastx;
-	else{
+Command strToCommand(const std::string &str) {
+	if (str == "makedb") return Command::makedb;
+	else if (str == "blastp") return Command::blastp;
+	else if (str == "blastx") return Command::blastx;
+	else {
 		throw invalid_argument("Unrecognised command!");
 	}
 }
@@ -143,5 +161,5 @@ void printHelp(boost::program_options::options_description general,
 	cout << "  blastp\tAlign amino acid query sequences against a protein reference database" << endl;
 	cout << "  blastx\tAlign DNA query sequences against a protein reference database" << endl;
 	cout << endl;
-	cout<<general<<endl<<makedb<<aligner<<endl;
+	cout << general << endl << makedb << aligner << endl;
 }
