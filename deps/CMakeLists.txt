@@ -1,8 +1,9 @@
-SET(BOOST_MIN_VERSION "1.60.0")
 
 set(Boost_NO_SYSTEM_PATHS OFF)
 set(BOOST_INCLUDEDIR "./boost/include/")
 set(BOOST_LIBRARYDIR "./boost/lib/")
+
+SET(BOOST_MIN_VERSION "1.60.0")
 
 find_package(Boost ${BOOST_MIN_VERSION} COMPONENTS serialization system thread program_options REQUIRED)
 
