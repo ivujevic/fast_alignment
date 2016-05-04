@@ -1,4 +1,5 @@
 #!/bin/bash
+make clean
 cd deps
 wget http://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.tar.gz
 if [ -f boost_1_60_0.tar.gz ]; then
