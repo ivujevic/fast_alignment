@@ -75,12 +75,14 @@ void Tachyon::hit_database(vector<pair<long, long>> &coded_pentapeptides, std::u
 	unordered_map<long, int> lowSequences;
 
 	for (auto &code_pair : coded_pentapeptides) {
+		if(base_.high_freq_map.find(code_pair.first) == base_.high_freq_map.end()) continue;
 		for (auto &&p : base_.high_freq_map[code_pair.first]) {
 
 			high_positions[p.first].push_back(make_pair(code_pair.second, p.second));
 			potentialSequence[p.first] += 1;
 		}
 
+		if(base_.low_freq_map.find(code_pair.first) == base_.low_freq_map.end()) continue;
 		for (auto &&p : base_.low_freq_map[code_pair.first]) {
 			low_positions[p.first].push_back(make_pair(code_pair.second, p.second));
 			lowSequences[p.first] += 1;
