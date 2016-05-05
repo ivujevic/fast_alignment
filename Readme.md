@@ -3,10 +3,7 @@
 ### Build requirements
 
 One needs `GNU make`, `Cmake 3+`, `Boost` libraries. If you don't know if you have them or
-not just type `make packages` and it will prompt you for install. If you do not have permissions
-to install packages or want to put them in other folder (this requires installed `boost` in the default include directory)
-you can install it and than uncomment first four lines in `deps/CMakeLists.txt`. In lines 3 and 4 you need
-to set path to installed boost directories.
+not just type `make packages` and it will prompt you for install.
 
 
 ### How to build?
