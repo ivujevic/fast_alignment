@@ -138,7 +138,7 @@ void Base::make_indexes() {
 	}
 
 	cout<<"Finished with counting"<<endl;
-
+	cout<<"Number of finished indexes:"<<endl;
 	#pragma omp parallel
 	{
 		#pragma omp single
