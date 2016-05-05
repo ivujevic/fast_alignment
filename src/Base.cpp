@@ -122,6 +122,7 @@ void Base::make_indexes() {
 	std::unordered_map<int,int> counters;
 
 	cout<<"Readed " <<sets.size()<<" sequences" << endl;
+	cout<<"Number of counted sequences:"<<endl;
 	#pragma omp parallel
 	{
 		#pragma omp single
@@ -130,6 +131,10 @@ void Base::make_indexes() {
 				#pragma omp task shared(counters)
 				{
 					count(sets[i],counters);
+					if(i%10000 == 0) {
+						#pragma omp critical
+						cout<<i<<endl;
+					}
 				}
 			}
 		}
