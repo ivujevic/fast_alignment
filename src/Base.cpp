@@ -43,9 +43,10 @@ void Base::find_indexes(DatabaseElement& elem, std::unordered_map<int, int>& cou
 	vector<tuple<long,long,long> > sorted_pentapeptides;
 
 	for(auto&& p : results) {
+		if(counters.find(p.first) == counters.end()) continue;
 		int cn = counters[p.first];
 		if(cn == 0) continue;
-		sorted_pentapeptides.push_back(std::make_tuple(p.first,p.second,counters[p.first]));
+		sorted_pentapeptides.push_back(std::make_tuple(p.first,p.second,cn));
 	}
 
 	stable_sort(sorted_pentapeptides.begin(),sorted_pentapeptides.end(), [](const tuple<long,long,long>& a , const tuple<long,long,long> & b)->bool {
