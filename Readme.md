@@ -52,7 +52,7 @@ Use this options when you want to create reduced database
 
 | Option  |  Short | Default | Description       |
 | --------|--------| --------| ------------------|
-|--read   | -r     |         | path to reduced database |
+|--red   | -r     |         | path to reduced database |
 
 ###Aligner options
 Use this options when you want to align query against reduced database
