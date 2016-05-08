@@ -67,7 +67,7 @@ Use this options when you want to align query against reduced database
 | --------      |--------| --------     | ------------------|
 |--query        | -q     |              | path to query file |
 |--high-match           | 3     |              | minimum number of common kmer match |
-|--low-match           | 2     |              | minimum number of least kmer match |
+|--low-match           | 2     |              | minimum number of least common kmer match |
 |--gapopen      | -g     |     10       | gap open penalty |
 |--gapext       | -e     |     1        | gap extend penalty |
 |--matrix       | -m     | BLOSUM_62    | score matrix |
