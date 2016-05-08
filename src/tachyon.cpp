@@ -255,7 +255,7 @@ void Tachyon::ssearch(DatabaseElement &query, std::unordered_set<long> hits_id,
 	}
 
 	if (error) {
-		cout << "Greska " << error << endl;
+		cout << "Error in opal! " << error << endl;
 	}
 	std::sort(alignments.begin(), alignments.end(), compareAlignment);
 	for (const auto &it: database_) {
