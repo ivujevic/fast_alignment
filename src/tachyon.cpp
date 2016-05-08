@@ -57,7 +57,7 @@ int Tachyon::findInDatabase(DatabaseElement &query, Type type, AlignmentSet &res
 
 	vector<pair<long, long>> coded_pentapeptides;
 
-	get_codes(query.sequence(), coded_pentapeptides);
+	get_codes(query.sequence(), coded_pentapeptides,kmer_len_);
 
 	std::unordered_set<long> hits_id;
 
@@ -98,7 +98,7 @@ void Tachyon::filter_hits(unordered_map<long, int> &high_hits, unordered_map<lon
                           unordered_map<long, vector<pair<long, long>>> &positions,
                           unordered_map<long, vector<pair<long, long>>> &lowPositions) {
 	for (auto &&p : high_hits) {
-		if (p.second >= 3) {
+		if (p.second >= high_match_) {
 			auto &v = positions[p.first];
 			sort(v.begin(), v.end(), [](pair<long, long> a, pair<long, long> b) -> bool { return a.first < b.first; });
 			bool indexOk = true;
@@ -129,7 +129,7 @@ void Tachyon::filter_hits(unordered_map<long, int> &high_hits, unordered_map<lon
 		}
 	}
 	for (auto &&p : low_hits) {
-		if (p.second >= 2) {
+		if (p.second >= low_match_) {
 			auto &v = lowPositions[p.first];
 			sort(v.begin(), v.end(), [](pair<long, long> a, pair<long, long> b) -> bool { return a.first < b.first; });
 			bool indexOk = true;

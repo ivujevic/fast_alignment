@@ -17,12 +17,13 @@ void printHelp(boost::program_options::options_description general,
                boost::program_options::options_description makedb,
                boost::program_options::options_description aligner);
 
-OutputType strToOutputType(const std::string& str);
+OutputType strToOutputType(const std::string &str);
 
-ScoreMatrixType strToScorerType(const std::string& str);
+ScoreMatrixType strToScorerType(const std::string &str);
 
-AlignmentType strToAlignmentType(const std::string& str);
-Command strToCommand(const std::string& str);
+AlignmentType strToAlignmentType(const std::string &str);
+
+Command strToCommand(const std::string &str);
 
 int main(int argc, const char *argv[]) {
 
@@ -36,14 +37,34 @@ int main(int argc, const char *argv[]) {
 	po::options_description general("General options");
 
 	long threads;
+	long kmer_len;
+	string kmol_high, kmol_low;
+
+	long seg_window;
+	string seg_low_cut_;
+	string seg_high_cut_;
+
 	general.add_options()
 			("help,h", "produce help message")
 			("threads,p", po::value<long>(&threads)->default_value(8), "number of CPU threads")
-			("db,d", po::value<string>(&database_path), "path to original nr file");
+			("db,d", po::value<string>(&database_path), "path to original nr file")
+			("in,i", po::value<string>(&reduced_database), "path to reduced database")
+			("kmer-len,l", po::value<long>(&kmer_len)->default_value(5), "k-mer length\n");
 
 	po::options_description makedb("Makedb options");
+
 	makedb.add_options()
-			("red,r", po::value<string>(&reduced_database), "path to reduced database\n");
+			("kmol-high", po::value<string>(&kmol_high)->default_value("5,0"),
+			 "most common k-mer over which length, e.g \n"
+					 "5,0 means 5 k-mers over full length\n"
+					 "3,60 means 3 kmer for every 60 AA \n")
+			("kmol-low", po::value<string>(&kmol_low)->default_value("7,0"),
+			 "least common k-mer over which length, e.g \n"
+					 "5,0 means 5 k-mers over full length\n"
+					 "3,60 means 3 kmer for every 60 AA \n")
+			("seg-window", po::value<long>(&seg_window)->default_value(12), "Seg window")
+			("seg-low-cut", po::value<string>(&seg_low_cut_)->default_value("2.2"), "seg lowCut")
+			("seg-high-cut", po::value<string>(&seg_high_cut_)->default_value("2.5"), "Seg highCut");
 
 	po::options_description aligner("Aligner options");
 
@@ -59,9 +80,13 @@ int main(int argc, const char *argv[]) {
 	double max_evalue;
 	int max_alignments;
 	string algorithm;
+	int high_match;
+	int low_match;
+
 	aligner.add_options()
-			("in,i", po::value<string>(&reduced_database), "path to reduced database")
 			("query,q", po::value<string>(&queries_path), "input query file")
+			("high-match", po::value<int>(&high_match)->default_value(3), "minimum number of common kmer match")
+			("low-match", po::value<int>(&low_match)->default_value(2), "minimum number of least common kmer match")
 			("gapopen,g", po::value<int>(&gap_open)->default_value(10), "gap open penalty, default=10")
 			("gapext,e", po::value<int>(&gap_extend)->default_value(1), "gap extend penalty, default=1")
 			("matrix,m", po::value<string>(&matrix)->default_value("BLOSUM_62"), "score matrix")
@@ -93,34 +118,50 @@ int main(int argc, const char *argv[]) {
 
 	po::variables_map vm;
 
-	try{
+	try {
 		po::store(
 				po::command_line_parser(argc, argv).options(all).positional(positional).run(), vm);
 		po::notify(vm);
 
-
 		if (vm.count("help")) {
-			printHelp(general,makedb,aligner);
+			printHelp(general, makedb, aligner);
 			exit(-1);
 		}
 
 		command = strToCommand(command_);
 
 		ScoreMatrixType scorer_type = strToScorerType(matrix);
-		ScoreMatrix scorer(scorer_type,gap_open, gap_extend);
+		ScoreMatrix scorer(scorer_type, gap_open, gap_extend);
 
-		AlignmentType  align_type = strToAlignmentType(algorithm);
+		AlignmentType align_type = strToAlignmentType(algorithm);
 		Type input_type;
 
 		omp_set_dynamic(0);
 		omp_set_num_threads(threads);
 
-		Base base(database_path.c_str(), reduced_database.c_str());
-		if(command == Command::makedb) {
+
+		if (command == Command::makedb) {
+			int high_numb, low_numb, high_olen, low_olen;
+
+			size_t p = kmol_high.find(',');
+			high_numb = stoi(kmol_high.substr(0, p));
+			high_olen = stoi(kmol_high.substr(p + 1));
+
+			p = kmol_low.find(',');
+			low_numb = stoi(kmol_low.substr(0, p));
+			low_olen = stoi(kmol_low.substr(p + 1));
+
+			Base base(database_path.c_str(), reduced_database.c_str(), kmer_len, high_numb, high_olen, low_numb,
+			          low_olen, seg_window, stod(seg_low_cut_), stod(seg_high_cut_));
 			base.read();
 			base.make_indexes();
-		}else {
+		} else {
+			Base base(database_path.c_str(), reduced_database.c_str());
 			base.dump_in_memory();
+			if (kmer_len != base.kmer_len()) {
+				printf("Error: This database was reduced with different kmer length!\n");
+				exit(-1);
+			}
 			EValue evalue_params(base.database_size(), scorer);
 			ChainSet queries;
 			readFastaFile(queries_path.c_str(), queries, 0);
@@ -130,29 +171,29 @@ int main(int argc, const char *argv[]) {
 			results.clear();
 			results.resize(query_size);
 
-			if(command == Command::blastp) input_type = Type::PROTEINS;
-			else if(command == Command::blastx) input_type = Type::NUCLEOTIDES;
+			if (command == Command::blastp) input_type = Type::PROTEINS;
+			else if (command == Command::blastx) input_type = Type::NUCLEOTIDES;
 
-			Tachyon tachyon(base);
+			Tachyon tachyon(base, high_match, low_match, kmer_len);
 			tachyon.search(queries, input_type, results, align_type, max_evalue, max_alignments, evalue_params, scorer);
 
-			OutputType  out_format = strToOutputType(out_format_string);
-			Writer writer (out_path, out_format, scorer);
+			OutputType out_format = strToOutputType(out_format_string);
+			Writer writer(out_path, out_format, scorer);
 
 
 			for (const auto &it: results) {
 				writer.write_alignments(it, queries, base);
 			}
 		}
-	}catch(invalid_argument& e) {
-		printf("%s\n",e.what());
-		printHelp(general,makedb,aligner);
+	} catch (invalid_argument &e) {
+		printf("%s\n", e.what());
+		printHelp(general, makedb, aligner);
 		exit(-1);
 	}
 
 }
 
-OutputType strToOutputType(const std::string& str) {
+OutputType strToOutputType(const std::string &str) {
 
 	if (str.compare("bm0") == 0) {
 		return OutputType::kBm0;
@@ -160,13 +201,13 @@ OutputType strToOutputType(const std::string& str) {
 		return OutputType::kBm8;
 	} else if (str.compare("bm9") == 0) {
 		return OutputType::kBm9;
-	}else{
+	} else {
 		throw invalid_argument("Unrecognised output format!");
 	}
 
 }
 
-ScoreMatrixType strToScorerType(const std::string& str) {
+ScoreMatrixType strToScorerType(const std::string &str) {
 
 	if (str.compare("BLOSUM_45") == 0) {
 		return ScoreMatrixType::kBlosum45;
@@ -184,12 +225,12 @@ ScoreMatrixType strToScorerType(const std::string& str) {
 		return ScoreMatrixType::kPam70;
 	} else if (str.compare("PAM_250") == 0) {
 		return ScoreMatrixType::kPam250;
-	}else {
+	} else {
 		throw invalid_argument("Unrecognised matrix!");
 	}
 }
 
-AlignmentType strToAlignmentType(const std::string& str) {
+AlignmentType strToAlignmentType(const std::string &str) {
 
 	if (str.compare("NW") == 0) {
 		return AlignmentType::kNW;
@@ -199,17 +240,17 @@ AlignmentType strToAlignmentType(const std::string& str) {
 		return AlignmentType::kOV;
 	} else if (str.compare("SW") == 0) {
 		return AlignmentType::kSW;
-	}else {
+	} else {
 		throw invalid_argument("Unrecognised alignment algorithm!");
 	}
 
 }
 
-Command strToCommand(const std::string& str) {
-	if(str == "makedb") return Command::makedb;
-	else if(str == "blastp") return Command::blastp;
-	else if(str == "blastx") return Command::blastx;
-	else{
+Command strToCommand(const std::string &str) {
+	if (str == "makedb") return Command::makedb;
+	else if (str == "blastp") return Command::blastp;
+	else if (str == "blastx") return Command::blastx;
+	else {
 		throw invalid_argument("Unrecognised command!");
 	}
 }
@@ -224,5 +265,5 @@ void printHelp(boost::program_options::options_description general,
 	cout << "  blastp\tAlign amino acid query sequences against a protein reference database" << endl;
 	cout << "  blastx\tAlign DNA query sequences against a protein reference database" << endl;
 	cout << endl;
-	cout<<general<<endl<<makedb<<aligner<<endl;
+	cout << general << endl << makedb << endl << aligner << endl;
 }

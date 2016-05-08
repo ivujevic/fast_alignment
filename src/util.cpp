@@ -178,29 +178,15 @@ void getComplementChain(const std::string& chain,int len, std::string& complemen
 }
 
 
-std::vector<std::string> split(std::string& text, char delim)
-{
-	std::vector<std::string> tokens;
-	std::stringstream ss(text);
-	std::string token;
-	while(getline(ss,token,delim))
-	{
-		tokens.push_back(token);
-	}
-	return tokens;
-}
-
-void get_codes(const std::string& sequence, std::vector<long>& results) {
+void get_codes(const std::string& sequence, std::vector<long>& results, int kmer_len) {
 	int len = sequence.length();
-	for(int i = 0; i < len - 4; i++) {
+	for(int i = 0; i < len - (kmer_len - 1); i++) {
 		long code = 0;
 		bool isValid = true;
-		string s = sequence.substr(i,5);
-
-		for(int j = 0; j < 5; j++) {
+		for(int j = 0; j < kmer_len; j++) {
 			char c = sequence[i+j];
-			code = code << 5;
-			if(c == '*' || c == 'X') {
+			code = code << 5; // use 5 bits for coding each AA
+			if(c == '*' || c == 'X' || c =='B' || c == 'J' || c == 'O' || c == 'U') {
 				isValid = false;
 				break;
 			}
@@ -210,34 +196,16 @@ void get_codes(const std::string& sequence, std::vector<long>& results) {
 	}
 }
 
-void get_codes(const std::string& sequence, std::set<long>& results) {
-	int len = sequence.length();
-	for(int i = 0; i < len - 4; i++) {
-		long code = 0;
-		bool isValid = true;
-		for(int j = 0; j < 5; j++) {
-			char c = sequence[i+j];
-			code = code << 5;
-			if(c == '*' || c == 'X') {
-				isValid = false;
-				break;
-			}
-			code = code | ( toupper(c) - 'A');
-		}
-		if(isValid) results.insert(code);
-	}
-}
-
-void get_codes(const string& sequence, vector<pair<long,long>>& results) {
+void get_codes(const string& sequence, vector<pair<long,long>>& results,int kmer_len) {
 	int len = sequence.length();
 	set<long> tempSet;
-	for(int i = 0; i < len - 4; i++) {
+	for(int i = 0; i < len - (kmer_len - 1); i++) {
 		long code = 0;
 		bool isValid = true;
-		for(int j = 0; j < 5; j++) {
+		for(int j = 0; j < kmer_len; j++) {
 			char c = sequence[i+j];
-			code = code << 5;
-			if(c == '*' || c == 'X') {
+			code = code << 5; // use 5 bits for coding each AA
+			if(c == '*' || c == 'X' || c =='B' || c == 'J' || c == 'O' || c == 'U') {
 				isValid = false;
 				break;
 			}

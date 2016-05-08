@@ -42,25 +42,32 @@ This commands determine the mode in which you want to run this app
 ###General options
 This options is necessary in all modes.
 
-| Option  |  Short | Default | Description       |
-| --------|--------| --------| ------------------|
-|--threads| -p     |   8     | number of threads |
-|--db     | -d     |         | path to reference database |
+| Option        |  Short | Default | Description       |
+| --------------|--------| --------| ------------------|
+|--threads      | -p     |   8     | number of threads |
+|--db           | -d     |         | path to reference database |
+|--in           | -i     |         | path to reduced database |
+|--kmer-len     | -l     |    5    | kmer length |
 
 ###Makedb options
 Use this options when you want to create reduced database
 
-| Option  |  Short | Default | Description       |
-| --------|--------| --------| ------------------|
-|--red   | -r     |         | path to reduced database |
+| Option              |  Short | Default | Description       |
+| --------------------|--------| --------| ------------------|
+|--kmol-high          |        |  5,0    | most common k-kmer over which length, e.g. 5,0 means 5 k-mers over full length; 3,60 means 3 k-mers for every 60 AA |
+|--kmol-low          |         |  7,0    | least common k-kmer over which length, e.g. 7,0 means 7 k-mers over full length; 3,60 means 3 k-mers for every 60 AA |
+|--seg-window        |        |  12    | windows size of seg masker |
+|--seg-low-cut          |        |  2.2    | low cut of seg masker |
+|--seg-high-cut         |        |  2.5    | high cut of seg masker |
 
 ###Aligner options
 Use this options when you want to align query against reduced database
 
 | Option        |  Short | Default      | Description       |
 | --------      |--------| --------     | ------------------|
-|--in           | -i     |              | path to reduced database |
 |--query        | -q     |              | path to query file |
+|--high-match           | 3     |              | minimum number of common kmer match |
+|--low-match           | 2     |              | minimum number of least kmer match |
 |--gapopen      | -g     |     10       | gap open penalty |
 |--gapext       | -e     |     1        | gap extend penalty |
 |--matrix       | -m     | BLOSUM_62    | score matrix |

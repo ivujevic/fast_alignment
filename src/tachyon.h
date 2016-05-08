@@ -17,11 +17,17 @@ using OutSet = std::vector<AlignmentSet>;
 using ChainSetP = std::vector<DatabaseElement*>;
 class Tachyon{
 public:
-	Tachyon(Base& base):base_(base){}
+	Tachyon(Base& base,int high_match,int low_match, int kmer_len):base_(base),high_match_(high_match),
+	                                                                low_match_(low_match),kmer_len_(kmer_len){}
+
 	void search(ChainSet& queries,Type type, OutSet & results, AlignmentType align_type,
 	            double max_evalue, int max_uout,
 	            EValue& evalue_params,ScoreMatrix& scorer);
 private:
+
+	int high_match_;
+	int low_match_;
+	int kmer_len_;
 
 	Base& base_;
 

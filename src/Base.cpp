@@ -13,127 +13,140 @@
 using namespace std;
 using namespace boost::serialization;
 
-void Base::count(DatabaseElement& elem, std::unordered_map<int, int>& counters) {
+void Base::count(DatabaseElement &elem, std::unordered_map<int, int> &counters) {
 	vector<long> results;
 
-	Seg seg = Seg(Type::PROTEINS);
+	Seg seg = Seg(seg_window_, seg_low_, seg_high_);
 	string seq = elem.sequence();
 	seg.mask(seq);
-	get_codes(seq,results);
+	get_codes(seq, results, kmer_len_);
 
-	for(auto&& code : results) {
+	for (auto &&code : results) {
 		#pragma omp critical
 		{
-			if(counters.find(code) == counters.end()) {
+			if (counters.find(code) == counters.end()) {
 				counters[code] = 1;
-			}else {
+			} else {
 				int cn = counters[code];
-				counters[code] = cn +1;
+				counters[code] = cn + 1;
 			}
 
 		}
 	}
 }
 
-void Base::find_indexes(DatabaseElement& elem, std::unordered_map<int, int>& counters,std::unordered_map<long, vector<pair<long,long>> >& high_map,
-                        std::unordered_map<long, vector<pair<long,long>> >& low_map) {
-	vector< pair<long,long> > results;
-	get_codes(elem.sequence(),results);
+void Base::findInRegion(string &region, std::vector<pair<long, long>> &indexes, std::unordered_map<int, int> &counters,
+                        int kmer_numb, int region_start,
+                        bool (*sortFunction)(const tuple<long, long, long> &, const tuple<long, long, long> &)) {
 
-	vector<tuple<long,long,long> > sorted_pentapeptides;
+	vector<pair<long, long> > results;
+	get_codes(region, results, kmer_len_);
+	vector<tuple<long, long, long> > sorted_pentapeptides;
 
-	for(auto&& p : results) {
-		if(counters.find(p.first) == counters.end()) continue;
+	for (auto &&p : results) {
+		if (counters.find(p.first) == counters.end()) continue;
 		int cn = counters[p.first];
-		if(cn == 0) continue;
-		sorted_pentapeptides.push_back(std::make_tuple(p.first,p.second,cn));
+		if (cn == 0) continue;
+		sorted_pentapeptides.push_back(std::make_tuple(p.first, region_start+p.second, cn));
 	}
 
-	stable_sort(sorted_pentapeptides.begin(),sorted_pentapeptides.end(), [](const tuple<long,long,long>& a , const tuple<long,long,long> & b)->bool {
-		long freq_a,freq_b;
-		std::tie(std::ignore,std::ignore,freq_a) =a;
-		std::tie(std::ignore,std::ignore,freq_b) =b;
+	stable_sort(sorted_pentapeptides.begin(), sorted_pentapeptides.end(), sortFunction);
 
-		return freq_a > freq_b;
-	});
-
-	vector<pair<long,long>> high_freqs;
-	vector<pair<long,long>> low_freqs;
-
-	int ucitano = 0;
-	for( auto&& p : sorted_pentapeptides){
-		long code,position;
-		std::tie(code,position,std::ignore) = p;
-		if(ucitano == 5) break;
+	vector<pair<long, long>> added;
+	int added_size = 0;
+	for (auto &&p : sorted_pentapeptides) {
+		long code, position;
+		std::tie(code, position, std::ignore) = p;
+		if (added_size == high_numb_) break;
 		bool isValid = true;
-		for(auto&& added : high_freqs) if(abs(position - added.second) < 5) {isValid = false; break;}
-		if( isValid) {
-			high_freqs.push_back(make_pair(code,position));
-			ucitano++;
+		for (auto &&elem : added)
+			if (abs(position - elem.second) < kmer_len_) {
+				isValid = false;
+				break;
+			}
+		if (isValid) {
+			added.push_back(make_pair(code, position));
+			added_size++;
 		}
 	}
 
-	//add last five pentapeptides
-	for( int i = sorted_pentapeptides.size() -1, j = 0; i >= 0 && j < 7; i--){
-		auto p = sorted_pentapeptides[i];
-		long code,position;
-		std::tie(code,position,std::ignore) = p;
-		bool isValid = true;
-		for(auto&& added : low_freqs) if(abs(position - added.second) < 5) {isValid = false;break;}
-		if( isValid) {
-			low_freqs.push_back(make_pair(code,position));
-			j++;
+	if (added_size > 0) {
+		int diff = kmer_numb - added_size;
+		while (diff--) {
+			added.push_back(added[0]);
 		}
 	}
 
-	int h_size = high_freqs.size();
+	indexes.insert(indexes.end(), added.begin(), added.end());
+}
 
-	if(h_size > 0) {
-		int diff = 5 - h_size;
-		while(diff--) {
-			high_freqs.push_back(high_freqs[0]);
-		}
+void Base::find_indexes(DatabaseElement &elem, std::unordered_map<int, int> &counters,
+                        std::unordered_map<long, vector<pair<long, long>>> &high_map,
+                        std::unordered_map<long, vector<pair<long, long>>> &low_map) {
+
+
+	vector<pair<long, long>> high_indexes;
+	vector<pair<long, long>> low_indexes;
+
+	int regionSize = high_olen_ == 0 ? elem.sequence_len() : high_olen_;
+	for (int k = 0; k < elem.sequence_len(); k += regionSize) {
+		string region = elem.sequence().substr(k, regionSize);
+		findInRegion(region, high_indexes, counters, high_numb_,k,
+		             [](const tuple<long, long, long> &a, const tuple<long, long, long> &b) -> bool {
+			             long freq_a, freq_b;
+			             std::tie(std::ignore, std::ignore, freq_a) = a;
+			             std::tie(std::ignore, std::ignore, freq_b) = b;
+
+			             return freq_a > freq_b;
+		             });
 	}
 
-	int l_size = low_freqs.size();
-	if(l_size > 0) {
-		int diff = 7 - l_size;
-		while(diff--) {
-			low_freqs.push_back(low_freqs[0]);
-		}
+	regionSize = low_olen_ == 0 ? elem.sequence_len() : low_olen_;
+	for (int k = 0; k < elem.sequence_len(); k += regionSize) {
+		string region = elem.sequence().substr(k, regionSize);
+		findInRegion(region, low_indexes, counters, low_numb_,k,
+		             [](const tuple<long, long, long> &a, const tuple<long, long, long> &b) -> bool {
+			             long freq_a, freq_b;
+			             std::tie(std::ignore, std::ignore, freq_a) = a;
+			             std::tie(std::ignore, std::ignore, freq_b) = b;
+
+			             return freq_a < freq_b;
+		             });
 	}
+
 
 	int id = elem.id();
 
 	#pragma omp critical
 	{
-		for(auto&& p : high_freqs) {
-			high_map[p.first].push_back(make_pair(id,p.second));
+		for (auto &&p : high_indexes) {
+			high_map[p.first].push_back(make_pair(id, p.second));
 		}
 
-		for(auto&& p : low_freqs) {
-			low_map[p.first].push_back(make_pair(id,p.second));
+		for (auto &&p : low_indexes) {
+			low_map[p.first].push_back(make_pair(id, p.second));
 		}
 	}
 }
-void Base::make_indexes() {
-	std::unordered_map<long, std::vector<std::pair<long,long>> > high_map;
-	std::unordered_map<long, vector<pair<long,long>> > low_map;
-	std::unordered_map<int,int> counters;
 
-	cout<<"Readed " <<sets.size()<<" sequences" << endl;
-	cout<<"Number of counted sequences:"<<endl;
+void Base::make_indexes() {
+	std::unordered_map<long, std::vector<std::pair<long, long>>> high_map;
+	std::unordered_map<long, vector<pair<long, long>>> low_map;
+	std::unordered_map<int, int> counters;
+
+	cout << "Readed " << sets.size() << " sequences" << endl;
+	cout << "Number of counted sequences:" << endl;
 	#pragma omp parallel
 	{
 		#pragma omp single
 		{
-			for(int i =0; i < sets.size();i++){
+			for (int i = 0; i < sets.size(); i++) {
 				#pragma omp task shared(counters)
 				{
-					count(sets[i],counters);
-					if(i%10000 == 0) {
+					count(sets[i], counters);
+					if (i % 10000 == 0) {
 						#pragma omp critical
-						cout<<i<<endl;
+						cout << i << endl;
 					}
 				}
 			}
@@ -142,19 +155,19 @@ void Base::make_indexes() {
 		#pragma omp barrier
 	}
 
-	cout<<"Finished with counting"<<endl;
-	cout<<"Number of finished indexes:"<<endl;
+	cout << "Finished with counting" << endl;
+	cout << "Number of finished indexes:" << endl;
 	#pragma omp parallel
 	{
 		#pragma omp single
 		{
-			for(int i =0; i < sets.size();i++){
+			for (int i = 0; i < sets.size(); i++) {
 				#pragma omp task shared(high_map,low_map)
 				{
-					find_indexes(sets[i],counters,high_map,low_map);
-					if(i%10000 == 0) {
+					find_indexes(sets[i], counters, high_map, low_map);
+					if (i % 10000 == 0) {
 						#pragma omp critical
-						cout<<i<<endl;
+						cout << i << endl;
 					}
 				}
 			}
@@ -171,6 +184,7 @@ void Base::writeMaps() {
 	std::ofstream out(a);
 	boost::archive::binary_oarchive oa(out);
 
+	oa << kmer_len_;
 	oa << high_freq_map;
 	oa << low_freq_map;
 	out.close();
@@ -178,10 +192,10 @@ void Base::writeMaps() {
 }
 
 bool Base::read() {
-	databaseSize_ = readFastaFile(pathToDatabase,sets,0);
-	if(!databaseSize_) {
+	databaseSize_ = readFastaFile(pathToDatabase, sets, 0);
+	if (!databaseSize_) {
 		#pragma omp critical
-		cerr<<"Error: Original database doesn't exist" << endl;
+		cerr << "Error: Original database doesn't exist" << endl;
 		exit(-1);
 	}
 	return databaseSize_;
@@ -190,15 +204,18 @@ bool Base::read() {
 
 void Base::read_indexes() {
 	std::ifstream out(reduced_database_);
-	if(!out.good()) {
+	if (!out.good()) {
 		#pragma omp critical
-		cerr<<"Error: Reduced database file doesn't exist" << endl;
+		cerr << "Error: Reduced database file doesn't exist" << endl;
 		exit(-1);
 	}
 	boost::archive::binary_iarchive ia(out);
-	ia>>high_freq_map;
-	ia>>low_freq_map;
+	ia >> kmer_len_;
+	ia >> high_freq_map;
+	ia >> low_freq_map;
 	out.close();
+
+	printf("This database was reduced with kmer length %d\n", kmer_len_);
 }
 
 bool Base::dump_in_memory() {

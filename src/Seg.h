@@ -19,12 +19,12 @@ enum class Type{PROTEINS,NUCLEOTIDES}; // Protein sequence or nucleotide
 class Seg{
 private:
 	Type type;
-	int L = windowSize;
-	double k1 = lowerEntropy;
-	double k2 = upperEntropy;
+	int L;
+	double k1;
+	double k2;
 	char maskChar = 'X';
 	int maxtrim = 100;
-	int N;
+	int N = 20;
 	int downset;
 	int upset;
 
@@ -37,8 +37,8 @@ private:
 	void trim(string& seq1,int left,int right,int& leftEnd,int& rightEnd);
 	void segSeq(string& seq,vector< pair<int,int>>& segs, int offset);
 public:
-	Seg();
-	Seg(Type type);
+	Seg(){};
+	Seg(int window_size, double low_cut, double high_cut):L(window_size),k1(low_cut),k2(high_cut){};
 	void mask(string& seq);
 };
 

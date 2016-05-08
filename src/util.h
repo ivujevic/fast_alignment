@@ -19,7 +19,6 @@ extern uint64_t readFastaFile(const char* file, ChainSet & elements, uint64_t da
 
 extern std::vector<std::string> split(std::string& text, char delim);
 
-extern void get_codes(const std::string& sequence, std::vector<long>& results);
-extern void get_codes(const std::string& sequence, std::set<long>& results);
-extern void get_codes(const std::string& sequence, std::vector<std::pair<long,long>>& results);
+extern void get_codes(const std::string& sequence, std::vector<long>& results,int kmer_len);
+extern void get_codes(const std::string& sequence, std::vector<std::pair<long,long>>& results,int kmer_len);
 typedef enum {makedb, blastp, blastx} Command;

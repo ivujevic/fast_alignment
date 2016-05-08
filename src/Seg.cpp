@@ -1,18 +1,8 @@
 #include "Seg.h"
-#include<iostream>
+
+
 #include "logArray.h"
-#include <assert.h>
 
-Seg::Seg(){}
-
-Seg::Seg(Type type) {
-  if (type == Type::NUCLEOTIDES){
-    this->N = 4;
-    maskChar = 'N';
-  }
-  else this->N = 20;
-  this->type = type;
-}
 
 /**
  * Return masked sequence
@@ -28,8 +18,6 @@ void Seg::mask(string& sequence) {
   segSeq(sequence,segments,0);
 
   for (pair<int, int> p : segments) {
-    assert(p.second < seqLen && "Ne dogovara velicina");
-    assert(p.first > 0 && "Negativan je ");
     for (int i = p.first; i <= p.second; i++) sequence.at(i) = maskChar;
   }
 
