@@ -159,25 +159,25 @@ void Writer::write_bm0(const AlignmentSet& alignments, const ChainSet& queries,
 			int index = j % 60;
 
 			if (align_res == kMatch) {
-				markup_str[index] = query_seq[query_end] + 'A';
-				query_str[index] = query_seq[query_end++] + 'A';
-				target_str[index] = target_seq[target_end++] + 'A';
+				markup_str[index] = query_seq[query_end] ;
+				query_str[index] = query_seq[query_end++] ;
+				target_str[index] = target_seq[target_end++] ;
 			} else if (align_res == kMismatch) {
 				if (scorer_.score(query_seq[query_end], target_seq[target_end]) > 0) {
 					markup_str[index] = '+';
 				} else {
 					markup_str[index] = ' ';
 				}
-				query_str[index] = query_seq[query_end++] + 'A';
-				target_str[index] = target_seq[target_end++] + 'A';
+				query_str[index] = query_seq[query_end++] ;
+				target_str[index] = target_seq[target_end++] ;
 			} else if (align_res == kDeletion) {
 				markup_str[index] = ' ';
-				query_str[index] = query_seq[query_end++] + 'A';
+				query_str[index] = query_seq[query_end++] ;
 				target_str[index] = '-';
 			} else {
 				markup_str[index] = ' ';
 				query_str[index] = '-';
-				target_str[index] = target_seq[target_end++] + 'A';
+				target_str[index] = target_seq[target_end++] ;
 			}
 
 			if ((j+1) % 60 == 0 || j == alignment_len-1) {
