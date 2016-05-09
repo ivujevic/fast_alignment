@@ -55,6 +55,7 @@ int Tachyon::findInDatabase(DatabaseElement &query, Type type, AlignmentSet &res
 
 		//TODO: Group by name and sort
 		sort(results.begin(),results.end(),compareAlignment);
+		return results.size();
 	}
 
 	vector<pair<long, long>> coded_pentapeptides;
