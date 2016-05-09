@@ -38,12 +38,12 @@ int Tachyon::findInDatabase(DatabaseElement &query, Type type, AlignmentSet &res
 
 				for(int i =0 ; i < q_len; i++) {
 					DatabaseElement db(query.name(),query.name_len(),queries_AA[i],queries_AA[i].length(),query.id());
-					#pragma omp task shared(evalue_params,scorer)
+					#pragma omp task shared(in_results,evalue_params,scorer)
 					{
 						findInDatabase(db,Type::PROTEINS,in_results[i],align_type,max_evalue,evalue_params,scorer);
 					}
 				}
-
+		#pragma omp taskwait
 		unordered_map<int,int> max_scores;
 		for(int i =0; i < q_len;i++) {
 			for(auto& alignment : in_results[i]) {
