@@ -155,6 +155,7 @@ void convertDNAToAA(const std::string& dnaSeq, std::vector<std::string>& aaSeqs)
 	std::string complementChain = "";
 	getComplementChain(dnaSeq,len,complementChain);
 
+	aaSeqs.resize(6);
 
 	for(int i = 0; i < 3; i++){
 		std::string aaSeq ="";
@@ -162,11 +163,20 @@ void convertDNAToAA(const std::string& dnaSeq, std::vector<std::string>& aaSeqs)
 		for(int j = i; j <len- 2; j+=3){
 			std::string codon = dnaSeq.substr(j,3);
 			std::string codonCompl = complementChain.substr(j,3);
-			aaSeq += codonTable[codon];
-			aaSeqCompl += codonTable[codonCompl];
+			if(codonTable.find(codon) != codonTable.end()){
+				aaSeq += codonTable[codon];
+			}else{
+				aaSeq += 'X';
+			}
+
+			if(codonTable.find(codonCompl) != codonTable.end()) {
+				aaSeqCompl += codonTable[codonCompl];
+			}else {
+				aaSeqCompl +='X';
+			}
 		}
-		aaSeqs.push_back(aaSeq);
-		aaSeqs.push_back(aaSeqCompl);
+		aaSeqs[i] = aaSeq;
+		aaSeqs[3+i] = aaSeqCompl;
 	}
 }
 

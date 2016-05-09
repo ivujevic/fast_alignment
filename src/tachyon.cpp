@@ -29,7 +29,7 @@ int Tachyon::findInDatabase(DatabaseElement &query, Type type, AlignmentSet &res
 	if (type == Type::NUCLEOTIDES) {
 
 				vector<string> queries_AA;
-				convertDNAToAA(query.name(),queries_AA);
+				convertDNAToAA(query.sequence(),queries_AA);
 
 				int q_len = queries_AA.size();
 				OutSet  in_results(q_len);
@@ -62,7 +62,7 @@ int Tachyon::findInDatabase(DatabaseElement &query, Type type, AlignmentSet &res
 	std::unordered_set<long> hits_id;
 
 	hit_database(coded_pentapeptides, hits_id);
-
+	
 
 	ssearch(query, hits_id, results, max_evalue, align_type, evalue_params, scorer);
 }
@@ -257,7 +257,8 @@ void Tachyon::ssearch(DatabaseElement &query, std::unordered_set<long> hits_id,
 	if (error) {
 		cout << "Error in opal! " << error << endl;
 	}
-	std::sort(alignments.begin(), alignments.end(), compareAlignment);
+
+	if(k >0) std::sort(alignments.begin(), alignments.end(), compareAlignment);
 	for (const auto &it: database_) {
 		delete[] it;
 	}
