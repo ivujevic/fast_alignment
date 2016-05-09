@@ -32,11 +32,13 @@ int Tachyon::findInDatabase(DatabaseElement &query, Type type, AlignmentSet &res
 				convertDNAToAA(query.sequence(),queries_AA);
 
 				int q_len = queries_AA.size();
-				OutSet  in_results(q_len);
+				OutSet in_results;
+				in_results.clear();
+				in_results.resize(q_len);
 
 				for(int i =0 ; i < q_len; i++) {
 					DatabaseElement db(query.name(),query.name_len(),queries_AA[i],queries_AA[i].length(),query.id());
-					#pragma omp task shared(in_results,evalue_params,scorer)
+					#pragma omp task shared(evalue_params,scorer)
 					{
 						findInDatabase(db,Type::PROTEINS,in_results[i],align_type,max_evalue,evalue_params,scorer);
 					}
@@ -62,7 +64,7 @@ int Tachyon::findInDatabase(DatabaseElement &query, Type type, AlignmentSet &res
 	std::unordered_set<long> hits_id;
 
 	hit_database(coded_pentapeptides, hits_id);
-	
+
 
 	ssearch(query, hits_id, results, max_evalue, align_type, evalue_params, scorer);
 }
@@ -258,7 +260,7 @@ void Tachyon::ssearch(DatabaseElement &query, std::unordered_set<long> hits_id,
 		cout << "Error in opal! " << error << endl;
 	}
 
-	if(k >0) std::sort(alignments.begin(), alignments.end(), compareAlignment);
+	std::sort(alignments.begin(), alignments.end(), compareAlignment);
 	for (const auto &it: database_) {
 		delete[] it;
 	}
