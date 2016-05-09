@@ -7,7 +7,7 @@ If you don't know if you have them or
 not just type `make packages` and it will prompt you for install.
 
 Also, need to have SSE4.1 or higher. If AVX2 is available
-second step will consume two times more sequences and will therefore work two times faster. In the second step
+the second step will consume two times more sequences and will therefore work two times faster. In the second step
 we use https://github.com/Martinsos/opal
 
 ### How to build?
