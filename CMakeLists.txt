@@ -4,6 +4,7 @@ project(tachyon)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+
 include(CodeCoverage)
 
 
@@ -13,7 +14,7 @@ endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     set(CMAKE_CXX_FLAGS
-            "${CMAKE_CXX_FLAGS} -g -O3 -fopenmp -std=c++11 -march=native -MMD -MP -MF -lpthread -Wall -Wextra \
+            "${CMAKE_CXX_FLAGS} -g -O3 -fopenmp -std=c++11 -march=native -lpthread -MMD -MP -MF -Wall -Wextra \
 						-Wno-sign-compare -Wno-return-type -fno-strict-aliasing")
 
 

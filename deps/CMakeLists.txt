@@ -5,6 +5,7 @@ set(BOOST_LIBRARYDIR "./boost/lib/")
 
 SET(BOOST_MIN_VERSION "1.54.0")
 
+SET(Boost_USE_STATIC_LIBS ON)
 find_package(Boost ${BOOST_MIN_VERSION} COMPONENTS serialization system thread program_options REQUIRED)
 
 
