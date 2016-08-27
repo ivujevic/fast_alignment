@@ -6,7 +6,9 @@
 #include <omp.h>
 #include <boost/asio/io_service.hpp>
 #include <boost/asio.hpp>
-
+#include <boost/bind.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include "tachyon.h"
 #include "util.h"
 #include "writer.hpp"
@@ -28,6 +30,70 @@ AlignmentType strToAlignmentType(const std::string &str);
 Command strToCommand(const std::string &str);
 
 void serverThread(string &settings, tcp::socket* so,int i);
+
+
+class session
+        :public boost::enable_shared_from_this<session>
+{
+public:
+    session(boost::asio::io_service& io_service)
+        :socket_(io_service){}
+
+    tcp::socket& socket(){
+        return socket_;
+    }
+
+    void start() {
+        boost::array<char, 512> buffer;
+
+        boost::system::error_code error;
+        size_t len = socket_.read_some(boost::asio::buffer(buffer));
+
+         string message;
+         copy(buffer.begin(), buffer.begin() + len, back_inserter(message));
+         cout<<"Primio sam "<<message<<endl;
+    }
+
+private:
+    tcp::socket socket_;
+};
+
+typedef boost::shared_ptr<session> session_ptr;
+
+
+class server
+{
+public:
+    server(boost::asio::io_service& io_service, const tcp::endpoint& endpoint)
+        :io_service_(io_service),
+          acceptor_(io_service, endpoint)
+    {
+        start_accpet(0);
+    }
+
+    void start_accpet(int i) {
+        cout<<"Start server "<<i<<"\t"<<endl;
+        session_ptr new_session(new session(io_service_));
+        acceptor_.async_accept(new_session->socket(),
+                               boost::bind(&server::handle_accept, this, new_session, boost::asio::placeholders::error(), i));
+    }
+
+    void handle_accept(session_ptr session,
+                       const boost::system::error_code& error, int i)
+    {
+        if (!error) {
+            session->start();
+        }
+
+        start_accpet(i+1);
+    }
+
+private:
+    boost::asio::io_service& io_service_;
+    tcp::acceptor acceptor_;
+};
+
+typedef boost::shared_ptr<server> server_ptr;
 
 int main(int argc, const char *argv[]) {
 
@@ -52,42 +118,16 @@ int main(int argc, const char *argv[]) {
 			("db,d", po::value<string>(&database_path), "path to original nr file");
 
 	cout << "Listening on " << port << endl;
-	boost::asio::io_service io_service;
+    boost::asio::io_service io_service;
 
-	tcp::acceptor acceptor(io_service, tcp::endpoint(tcp::v4(), port));
+    tcp::endpoint endpoint(tcp::v4(), port);
 
+    server_ptr server_(new server(io_service, endpoint));
 
-	#pragma omp parallel
-	{
-		#pragma omp single
-		{
-			for (int i =0; ;i++) {
-				tcp::socket socket(io_service);
-
-				acceptor.accept(socket);
-				boost::array<char, 512> buffer;
-
-				boost::system::error_code error;
-				size_t len = socket.read_some(boost::asio::buffer(buffer));
-
-				string message;
-				copy(buffer.begin(), buffer.begin() + len, back_inserter(message));
-				#pragma omp task
-				{
-					serverThread(message, &socket,i);
-				}
-				break;
-			}
-		}
-	}
-
+    io_service.run();
 
 }
 
-void serverThread(string &settings, tcp::socket* socket,int i) {
-	//boost::asio::write(socket, boost::asio::buffer("Finished " + to_string(i)));
-
-}
 
 OutputType strToOutputType(const std::string &str) {
 
