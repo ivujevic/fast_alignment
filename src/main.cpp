@@ -4,14 +4,19 @@
 #include <boost/program_options.hpp>
 #include <boost/unordered_map.hpp>
 #include <omp.h>
-
+#include <boost/asio/io_service.hpp>
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include "tachyon.h"
 #include "util.h"
 #include "writer.hpp"
-
+#include "util/json.hpp"
 
 using namespace std;
-
+using boost::asio::ip::tcp;
+using json = nlohmann::json;
 
 void printHelp(boost::program_options::options_description general,
                boost::program_options::options_description makedb,
@@ -25,6 +30,106 @@ AlignmentType strToAlignmentType(const std::string &str);
 
 Command strToCommand(const std::string &str);
 
+void serverThread(string &settings, tcp::socket* so,int i);
+
+
+class session
+		:public boost::enable_shared_from_this<session>
+{
+public:
+	session(boost::asio::io_service& io_service, Base& base)
+			:socket_(io_service),
+			 base_(base){}
+
+	tcp::socket& socket(){
+		return socket_;
+	}
+
+	void start() {
+
+		boost::array<char, 512> buffer;
+
+		boost::system::error_code error;
+		size_t len = socket_.read_some(boost::asio::buffer(buffer));
+
+		string message;
+		copy(buffer.begin(), buffer.begin() + len, back_inserter(message));
+
+		json params = json::parse(message);
+
+		string query_path = params["q"];
+		string type = params["type"];
+		int high_match = params["hm"];
+		int low_match = params["lm"];
+		int gap_open = params["g"];
+		int gap_extend = params["e"];
+		string matrix = params["m"];
+		string out_path = params["o"];
+		string out_format_string = params["of"];
+		double max_evalue = params["v"];
+		int max_alignments = params["a"];
+		string algorithm = params["A"];
+
+		ScoreMatrixType scorer_type = strToScorerType(matrix);
+		ScoreMatrix scorer(scorer_type, gap_open, gap_extend);
+		AlignmentType align_type = strToAlignmentType(algorithm);
+
+		Type input_type;
+
+		if (type == "blastp") input_type = Type::PROTEINS;
+		else if (type == "blastx") input_type = Type::NUCLEOTIDES;
+
+		Tachyon tachyon(this->base_, high_match, low_match, this->base_.kmer_len());
+
+		cout<<"Primio sam "<<message<<endl;
+	}
+
+private:
+	tcp::socket socket_;
+	Base& base_;
+};
+
+typedef boost::shared_ptr<session> session_ptr;
+
+
+class server
+{
+public:
+	server(boost::asio::io_service& io_service, const tcp::endpoint& endpoint, Base& base)
+			:io_service_(io_service),
+			 acceptor_(io_service, endpoint),
+	         base_(base)
+	{
+		cout<<"Server is started and ready for use\n";
+
+		start_accpet();
+	}
+
+	void start_accpet() {
+		session_ptr new_session(new session(io_service_, base_));
+		Tachyon tachyon(base_, base_.kmer_len(), 5, 6);
+		acceptor_.async_accept(new_session->socket(),
+		                       boost::bind(&server::handle_accept, this, new_session, boost::asio::placeholders::error()));
+	}
+
+	void handle_accept(session_ptr session,
+	                   const boost::system::error_code& error)
+	{
+		if (!error) {
+			session->start();
+		}
+
+		start_accpet();
+	}
+
+private:
+	boost::asio::io_service& io_service_;
+	tcp::acceptor acceptor_;
+	Base& base_;
+};
+
+typedef boost::shared_ptr<server> server_ptr;
+
 int main(int argc, const char *argv[]) {
 
 	std::string database_path;
@@ -34,164 +139,52 @@ int main(int argc, const char *argv[]) {
 	string command_;
 	Command command;
 	namespace po = boost::program_options;
-	po::options_description general("General options");
+	po::options_description general("Server options");
 
 	long threads;
+	unsigned short port = 9341;
 	long kmer_len;
-	string kmol_high, kmol_low;
-
-	long seg_window;
-	string seg_low_cut_;
-	string seg_high_cut_;
 
 	general.add_options()
 			("help,h", "produce help message")
-			("threads,p", po::value<long>(&threads)->default_value(8), "number of CPU threads")
-			("db,d", po::value<string>(&database_path), "path to original nr file")
+			("threads,n", po::value<long>(&threads)->default_value(8), "max number of CPU threads per query")
 			("in,i", po::value<string>(&reduced_database), "path to reduced database")
-			("kmer-len,l", po::value<long>(&kmer_len)->default_value(5), "k-mer length\n");
-
-	po::options_description makedb("Makedb options");
-
-	makedb.add_options()
-			("kmol-high", po::value<string>(&kmol_high)->default_value("5,0"),
-			 "most common k-mer over which length, e.g \n"
-					 "5,0 means 5 k-mers over full length\n"
-					 "3,60 means 3 kmer for every 60 AA \n")
-			("kmol-low", po::value<string>(&kmol_low)->default_value("7,0"),
-			 "least common k-mer over which length, e.g \n"
-					 "5,0 means 5 k-mers over full length\n"
-					 "3,60 means 3 kmer for every 60 AA \n")
-			("seg-window", po::value<long>(&seg_window)->default_value(12), "Seg window")
-			("seg-low-cut", po::value<string>(&seg_low_cut_)->default_value("2.2"), "seg lowCut")
-			("seg-high-cut", po::value<string>(&seg_high_cut_)->default_value("2.5"), "Seg highCut");
-
-	po::options_description aligner("Aligner options");
-
-	std::string queries_path;
-
-	int gap_open;
-	int gap_extend;
-
-	string matrix;
-	std::string out_path;
-	std::string out_format_string;
-
-	double max_evalue;
-	int max_alignments;
-	string algorithm;
-	int high_match;
-	int low_match;
-
-	aligner.add_options()
-			("query,q", po::value<string>(&queries_path), "input query file")
-			("high-match", po::value<int>(&high_match)->default_value(3), "minimum number of common kmer match")
-			("low-match", po::value<int>(&low_match)->default_value(2), "minimum number of least common kmer match")
-			("gapopen,g", po::value<int>(&gap_open)->default_value(10), "gap open penalty, default=10")
-			("gapext,e", po::value<int>(&gap_extend)->default_value(1), "gap extend penalty, default=1")
-			("matrix,m", po::value<string>(&matrix)->default_value("BLOSUM_62"), "score matrix")
-			("out,o", po::value<string>(&out_path), "output file")
-			("out-format", po::value<string>(&out_format_string)->default_value("bm9"), "outfmt <string>\n"
-					"out format must be one of the following:\n"
-					"bm0 \t- blast m0 output format\n"
-					"bm8 \t- blast m8 tabular output format\n"
-					"bm9 \t- blast m9 commented tabular output format")
-			("evalue,v", po::value<double>(&max_evalue)->default_value(0.001), "evalue, default=0.001")
-			("max-aligns,a", po::value<int>(&max_alignments)->default_value(10), "max aligns, default=10")
-			("algorithm,A", po::value<string>(&algorithm)->default_value("SW"), "algorithm used for alignment.\n"
-					"Must be on of the following:\n"
-					"SW - Smith-Waterman local alignment\n"
-					"NW - Needleman-Wunsch global alignment\n"
-					"HW - semiglobal alignment\n"
-					"OV - overlap alignment\n");
-
-
-	po::options_description hidden("Hidden options");
-	hidden.add_options()("command", po::value<string>(&command_));
-
-	po::options_description all("Command line options");
-
-	all.add(general).add(hidden).add(makedb).add(aligner);
-
-	po::positional_options_description positional;
-	positional.add("command", -1);
+			("db,d", po::value<string>(&database_path), "path to original nr file")
+			("port,p", po::value<unsigned short>(&port)->default_value(9341), "port on which server listening")
+			("kmer-len,l", po::value<long>(&kmer_len)->default_value(5), "k-mer length\n");;
 
 	po::variables_map vm;
 
 	try {
-		po::store(
-				po::command_line_parser(argc, argv).options(all).positional(positional).run(), vm);
+		po::store(po::command_line_parser(argc, argv).options(general).run(), vm);
 		po::notify(vm);
-
 		if (vm.count("help")) {
-			printHelp(general, makedb, aligner);
+			//printHelp(general);
+			exit(-1);
+		}
+		Base base(database_path.c_str(), reduced_database.c_str());
+		base.dump_in_memory();
+
+		if (kmer_len != base.kmer_len()) {
+			printf("Error: This database was reduced with different kmer length!\n");
 			exit(-1);
 		}
 
-		command = strToCommand(command_);
+		boost::asio::io_service io_service;
 
-		ScoreMatrixType scorer_type = strToScorerType(matrix);
-		ScoreMatrix scorer(scorer_type, gap_open, gap_extend);
+		tcp::endpoint endpoint(tcp::v4(), port);
 
-		AlignmentType align_type = strToAlignmentType(algorithm);
-		Type input_type;
+		server_ptr server_(new server(io_service, endpoint, base));
 
-		omp_set_dynamic(0);
-		omp_set_num_threads(threads);
-
-
-		if (command == Command::makedb) {
-			int high_numb, low_numb, high_olen, low_olen;
-
-			size_t p = kmol_high.find(',');
-			high_numb = stoi(kmol_high.substr(0, p));
-			high_olen = stoi(kmol_high.substr(p + 1));
-
-			p = kmol_low.find(',');
-			low_numb = stoi(kmol_low.substr(0, p));
-			low_olen = stoi(kmol_low.substr(p + 1));
-
-			Base base(database_path.c_str(), reduced_database.c_str(), kmer_len, high_numb, high_olen, low_numb,
-			          low_olen, seg_window, stod(seg_low_cut_), stod(seg_high_cut_));
-			base.read();
-			base.make_indexes();
-		} else {
-			Base base(database_path.c_str(), reduced_database.c_str());
-			base.dump_in_memory();
-			if (kmer_len != base.kmer_len()) {
-				printf("Error: This database was reduced with different kmer length!\n");
-				exit(-1);
-			}
-			EValue evalue_params(base.database_size(), scorer);
-			ChainSet queries;
-			readFastaFile(queries_path.c_str(), queries, 0);
-			int query_size = queries.size();
-
-			OutSet results;
-			results.clear();
-			results.resize(query_size);
-
-			if (command == Command::blastp) input_type = Type::PROTEINS;
-			else if (command == Command::blastx) input_type = Type::NUCLEOTIDES;
-
-			Tachyon tachyon(base, high_match, low_match, kmer_len);
-			tachyon.search(queries, input_type, results, align_type, max_evalue, max_alignments, evalue_params, scorer);
-
-			OutputType out_format = strToOutputType(out_format_string);
-			Writer writer(out_path, out_format, scorer);
-
-
-			for (const auto &it: results) {
-				writer.write_alignments(it, queries, base);
-			}
-		}
+		io_service.run();
 	} catch (invalid_argument &e) {
 		printf("%s\n", e.what());
-		printHelp(general, makedb, aligner);
 		exit(-1);
 	}
 
+
 }
+
 
 OutputType strToOutputType(const std::string &str) {
 
@@ -265,5 +258,5 @@ void printHelp(boost::program_options::options_description general,
 	cout << "  blastp\tAlign amino acid query sequences against a protein reference database" << endl;
 	cout << "  blastx\tAlign DNA query sequences against a protein reference database" << endl;
 	cout << endl;
-	cout << general << endl << makedb << endl << aligner << endl;
+	cout << general << endl << makedb << aligner << endl;
 }

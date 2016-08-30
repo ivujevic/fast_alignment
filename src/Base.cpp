@@ -206,7 +206,7 @@ void Base::read_indexes() {
 	std::ifstream out(reduced_database_);
 	if (!out.good()) {
 		#pragma omp critical
-		cerr << "Error: Reduced database file doesn't exist" << endl;
+		cerr << "Error: Reduced database file doesn't exist\n" << endl;
 		exit(-1);
 	}
 	boost::archive::binary_iarchive ia(out);
