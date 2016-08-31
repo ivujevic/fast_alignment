@@ -18,9 +18,7 @@ using namespace std;
 using boost::asio::ip::tcp;
 using json = nlohmann::json;
 
-void printHelp(boost::program_options::options_description general,
-               boost::program_options::options_description makedb,
-               boost::program_options::options_description aligner);
+void printHelp(boost::program_options::options_description general);
 
 OutputType strToOutputType(const std::string &str);
 
@@ -47,17 +45,17 @@ public:
 
 	void start() {
 
-		boost::array<char, 512> buffer;
+		boost::array<char, 1024> buffer;
 
 		boost::system::error_code error;
 		size_t len = socket_.read_some(boost::asio::buffer(buffer));
 
 		string message;
 		copy(buffer.begin(), buffer.begin() + len, back_inserter(message));
-
+		cout<<"Primio " <<message<<endl;
 		json params = json::parse(message);
 
-		string query_path = params["q"];
+		string queries_path = params["q"];
 		string type = params["type"];
 		int high_match = params["hm"];
 		int low_match = params["lm"];
@@ -79,9 +77,27 @@ public:
 		if (type == "blastp") input_type = Type::PROTEINS;
 		else if (type == "blastx") input_type = Type::NUCLEOTIDES;
 
-		Tachyon tachyon(this->base_, high_match, low_match, this->base_.kmer_len());
+		ChainSet queries;
+		readFastaFile(queries_path.c_str(), queries, 0);
 
-		cout<<"Primio sam "<<message<<endl;
+		int query_size = queries.size();
+
+		OutSet results;
+		results.clear();
+		results.resize(query_size);
+
+		EValue evalue_params(base_.database_size(), scorer);
+
+		Tachyon tachyon(this->base_, high_match, low_match, this->base_.kmer_len());
+		tachyon.search(queries, input_type, results, align_type, max_evalue, max_alignments, evalue_params, scorer);
+
+		OutputType out_format = strToOutputType(out_format_string);
+		Writer writer(out_path, out_format, scorer);
+
+		for (const auto &it: results) {
+			writer.write_alignments(it, queries, base_);
+		}
+		boost::asio::write(socket_, boost::asio::buffer("Finished"));
 	}
 
 private:
@@ -159,9 +175,12 @@ int main(int argc, const char *argv[]) {
 		po::store(po::command_line_parser(argc, argv).options(general).run(), vm);
 		po::notify(vm);
 		if (vm.count("help")) {
-			//printHelp(general);
+			printHelp(general);
 			exit(-1);
 		}
+		omp_set_dynamic(0);
+		omp_set_num_threads(threads);
+
 		Base base(database_path.c_str(), reduced_database.c_str());
 		base.dump_in_memory();
 
@@ -248,15 +267,8 @@ Command strToCommand(const std::string &str) {
 	}
 }
 
-void printHelp(boost::program_options::options_description general,
-               boost::program_options::options_description makedb,
-               boost::program_options::options_description aligner) {
+void printHelp(boost::program_options::options_description general) {
 	cout << endl << "Syntax:" << endl;
-	cout << "  tachyon COMMAND [OPTIONS]" << endl << endl;
-	cout << "Commands:" << endl;
-	cout << "  makedb\tCreate indexes from FASTA file" << endl;
-	cout << "  blastp\tAlign amino acid query sequences against a protein reference database" << endl;
-	cout << "  blastx\tAlign DNA query sequences against a protein reference database" << endl;
-	cout << endl;
-	cout << general << endl << makedb << aligner << endl;
+	cout << "  tachyon [OPTIONS]" << endl << endl;
+	cout << general << endl;
 }
