@@ -104,17 +104,19 @@ int main(int argc, char* argv[])
 
 
 
-        boost::asio::write(socket, boost::asio::buffer(params.dump()), ignored_error);
+        boost::asio::write(socket, boost::asio::buffer(params.dump() + "\r\n\r\n"), ignored_error);
 
         cout << "Query processing!" << endl;
         string message;
-        while(message !="Finished") {
+        for(;;) {
             size_t len = socket.read_some(boost::asio::buffer(buffer));
             string message;
             copy(buffer.begin(),buffer.begin() + len,back_inserter(message));
-            cout<<message<<endl;
+            if (message.size() != 0){
+                cout<<message<<endl;
+                exit(-1);
+            }
         }
-        cout<<"Finished"<<endl;
     } catch (invalid_argument &e) {
         printf("%s\n", e.what());
         exit(-1);

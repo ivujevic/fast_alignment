@@ -8,6 +8,7 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/thread.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include "tachyon.h"
 #include "util.h"
@@ -28,123 +29,83 @@ AlignmentType strToAlignmentType(const std::string &str);
 
 Command strToCommand(const std::string &str);
 
-void serverThread(string &settings, tcp::socket* so,int i);
 
+typedef boost::shared_ptr<tcp::socket> socket_ptr;
 
-class session
-		:public boost::enable_shared_from_this<session>
+void alg(string message, Base& base_) {
+	json params = json::parse(message);
+
+	string queries_path = params["q"];
+	string type = params["type"];
+	int high_match = params["hm"];
+	int low_match = params["lm"];
+	int gap_open = params["g"];
+	int gap_extend = params["e"];
+	string matrix = params["m"];
+	string out_path = params["o"];
+	string out_format_string = params["of"];
+	double max_evalue = params["v"];
+	int max_alignments = params["a"];
+	string algorithm = params["A"];
+
+	ScoreMatrixType scorer_type = strToScorerType(matrix);
+	ScoreMatrix scorer(scorer_type, gap_open, gap_extend);
+	AlignmentType align_type = strToAlignmentType(algorithm);
+
+	Type input_type;
+
+	if (type == "blastp") input_type = Type::PROTEINS;
+	else if (type == "blastx") input_type = Type::NUCLEOTIDES;
+
+	ChainSet queries;
+	readFastaFile(queries_path.c_str(), queries, 0);
+
+	int query_size = queries.size();
+
+	OutSet results;
+	results.clear();
+	results.resize(query_size);
+
+	EValue evalue_params(base_.database_size(), scorer);
+
+	Tachyon tachyon(base_, high_match, low_match, base_.kmer_len());
+	tachyon.search(queries, input_type, results, align_type, max_evalue, max_alignments, evalue_params, scorer);
+
+	OutputType out_format = strToOutputType(out_format_string);
+	Writer writer(out_path, out_format, scorer);
+
+	for (const auto &it: results) {
+		writer.write_alignments(it, queries, base_);
+	}
+}
+
+void syn_session(socket_ptr socket, Base& base)
 {
-public:
-	session(boost::asio::io_service& io_service, Base& base)
-			:socket_(io_service),
-			 base_(base){}
+	boost::array<char, 1024> buffer;
 
-	tcp::socket& socket(){
-		return socket_;
-	}
+	boost::system::error_code error;
 
-	void start() {
+	size_t len = socket->read_some(boost::asio::buffer(buffer));
 
-		boost::array<char, 1024> buffer;
+	string message;
+	copy(buffer.begin(), buffer.begin() + len, back_inserter(message));
 
-		boost::system::error_code error;
-		size_t len = socket_.read_some(boost::asio::buffer(buffer));
+	cout << message<<endl;
+	alg(message, base);
+	boost::system::error_code ignored_error;
+	boost::asio::write(*socket.get(), boost::asio::buffer("Finished"));
+	cout<<"Finish"<<endl;
+}
 
-		string message;
-		copy(buffer.begin(), buffer.begin() + len, back_inserter(message));
-		cout<<"Primio " <<message<<endl;
-		json params = json::parse(message);
-
-		string queries_path = params["q"];
-		string type = params["type"];
-		int high_match = params["hm"];
-		int low_match = params["lm"];
-		int gap_open = params["g"];
-		int gap_extend = params["e"];
-		string matrix = params["m"];
-		string out_path = params["o"];
-		string out_format_string = params["of"];
-		double max_evalue = params["v"];
-		int max_alignments = params["a"];
-		string algorithm = params["A"];
-
-		ScoreMatrixType scorer_type = strToScorerType(matrix);
-		ScoreMatrix scorer(scorer_type, gap_open, gap_extend);
-		AlignmentType align_type = strToAlignmentType(algorithm);
-
-		Type input_type;
-
-		if (type == "blastp") input_type = Type::PROTEINS;
-		else if (type == "blastx") input_type = Type::NUCLEOTIDES;
-
-		ChainSet queries;
-		readFastaFile(queries_path.c_str(), queries, 0);
-
-		int query_size = queries.size();
-
-		OutSet results;
-		results.clear();
-		results.resize(query_size);
-
-		EValue evalue_params(base_.database_size(), scorer);
-
-		Tachyon tachyon(this->base_, high_match, low_match, this->base_.kmer_len());
-		tachyon.search(queries, input_type, results, align_type, max_evalue, max_alignments, evalue_params, scorer);
-
-		OutputType out_format = strToOutputType(out_format_string);
-		Writer writer(out_path, out_format, scorer);
-
-		for (const auto &it: results) {
-			writer.write_alignments(it, queries, base_);
-		}
-		boost::asio::write(socket_, boost::asio::buffer("Finished"));
-	}
-
-private:
-	tcp::socket socket_;
-	Base& base_;
-};
-
-typedef boost::shared_ptr<session> session_ptr;
-
-
-class server
-{
-public:
-	server(boost::asio::io_service& io_service, const tcp::endpoint& endpoint, Base& base)
-			:io_service_(io_service),
-			 acceptor_(io_service, endpoint),
-	         base_(base)
+void syn_server(boost::asio::io_service& io_service, short port, Base& base) {
+	tcp::acceptor a(io_service, tcp::endpoint(tcp::v4(), port));
+	for (;;)
 	{
-		cout<<"Server is started and ready for use\n";
-
-		start_accpet();
+		socket_ptr sock(new tcp::socket(io_service));
+		a.accept(*sock);
+		boost::thread t(boost::bind(syn_session, sock, base));
 	}
-
-	void start_accpet() {
-		session_ptr new_session(new session(io_service_, base_));
-		Tachyon tachyon(base_, base_.kmer_len(), 5, 6);
-		acceptor_.async_accept(new_session->socket(),
-		                       boost::bind(&server::handle_accept, this, new_session, boost::asio::placeholders::error()));
-	}
-
-	void handle_accept(session_ptr session,
-	                   const boost::system::error_code& error)
-	{
-		if (!error) {
-			session->start();
-		}
-
-		start_accpet();
-	}
-
-private:
-	boost::asio::io_service& io_service_;
-	tcp::acceptor acceptor_;
-	Base& base_;
-};
-
-typedef boost::shared_ptr<server> server_ptr;
+}
 
 int main(int argc, const char *argv[]) {
 
@@ -193,15 +154,14 @@ int main(int argc, const char *argv[]) {
 
 		tcp::endpoint endpoint(tcp::v4(), port);
 
-		server_ptr server_(new server(io_service, endpoint, base));
+		syn_server(io_service,port, base);
+		//server_ptr server_(new server(io_service, endpoint, base));
 
-		io_service.run();
+		//io_service.run();
 	} catch (invalid_argument &e) {
 		printf("%s\n", e.what());
 		exit(-1);
 	}
-
-
 }
 
 
