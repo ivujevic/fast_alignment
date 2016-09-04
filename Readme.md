@@ -19,6 +19,7 @@ tachyon, tachyon_server, tachyon_client.
 Executable file tachyon_server loads database in a memory and listening on a specific port.
 On each request align process is starting and the results are produced
 to a specific file. For more information run:
+
 `$ tachyon_server -h`
 
 The file tachyon_client connects to a server and sends path of a query path to a server. Also, one can
