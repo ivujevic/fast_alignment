@@ -228,3 +228,13 @@ void get_codes(const string& sequence, vector<pair<long,long>>& results,int kmer
 		}
 	}
 }
+
+Command strToCommand(const std::string &str) {
+	if (str == "makedb") return Command::makedb;
+	else if (str == "blastp") return Command::blastp;
+	else if (str == "blastx") return Command::blastx;
+	else if (str == "server") return Command::server;
+	else {
+		throw invalid_argument("Unrecognised command!");
+	}
+}

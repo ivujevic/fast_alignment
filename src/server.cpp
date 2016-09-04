@@ -19,15 +19,14 @@ using namespace std;
 using boost::asio::ip::tcp;
 using json = nlohmann::json;
 
-void printHelp(boost::program_options::options_description general);
+void printHelp(boost::program_options::options_description general,
+               boost::program_options::options_description makedb);
 
 OutputType strToOutputType(const std::string &str);
 
 ScoreMatrixType strToScorerType(const std::string &str);
 
 AlignmentType strToAlignmentType(const std::string &str);
-
-Command strToCommand(const std::string &str);
 
 
 typedef boost::shared_ptr<tcp::socket> socket_ptr;
@@ -90,7 +89,6 @@ void syn_session(socket_ptr socket, Base& base)
 	string message;
 	copy(buffer.begin(), buffer.begin() + len, back_inserter(message));
 
-	cout << message<<endl;
 	alg(message, base);
 	boost::system::error_code ignored_error;
 	boost::asio::write(*socket.get(), boost::asio::buffer("Finished"));
@@ -122,6 +120,12 @@ int main(int argc, const char *argv[]) {
 	unsigned short port = 9341;
 	long kmer_len;
 
+	string kmol_high, kmol_low;
+
+	long seg_window;
+	string seg_low_cut_;
+	string seg_high_cut_;
+
 	general.add_options()
 			("help,h", "produce help message")
 			("threads,n", po::value<long>(&threads)->default_value(8), "max number of CPU threads per query")
@@ -130,36 +134,81 @@ int main(int argc, const char *argv[]) {
 			("port,p", po::value<unsigned short>(&port)->default_value(9341), "port on which server listening")
 			("kmer-len,l", po::value<long>(&kmer_len)->default_value(5), "k-mer length\n");;
 
+	po::options_description makedb("Makedb options");
+
+	makedb.add_options()
+			("kmol-high", po::value<string>(&kmol_high)->default_value("5,0"),
+			 "most common k-mer over which length, e.g \n"
+					 "5,0 means 5 k-mers over full length\n"
+					 "3,60 means 3 kmer for every 60 AA \n")
+			("kmol-low", po::value<string>(&kmol_low)->default_value("7,0"),
+			 "least common k-mer over which length, e.g \n"
+					 "5,0 means 5 k-mers over full length\n"
+					 "3,60 means 3 kmer for every 60 AA \n")
+			("seg-window", po::value<long>(&seg_window)->default_value(12), "Seg window")
+			("seg-low-cut", po::value<string>(&seg_low_cut_)->default_value("2.2"), "seg lowCut")
+			("seg-high-cut", po::value<string>(&seg_high_cut_)->default_value("2.5"), "Seg highCut");
+
+
 	po::variables_map vm;
 
+	po::options_description hidden("Hidden options");
+	hidden.add_options()("command", po::value<string>(&command_));
+
+	po::positional_options_description positional;
+	positional.add("command", -1);
+
+	po::options_description all("Command line options");
+	all.add(general).add(hidden).add(makedb);
+
+
 	try {
-		po::store(po::command_line_parser(argc, argv).options(general).run(), vm);
+		po::store(po::command_line_parser(argc, argv).options(all).positional(positional).run(), vm);
 		po::notify(vm);
+
 		if (vm.count("help")) {
-			printHelp(general);
+			printHelp(general, makedb);
 			exit(-1);
 		}
-		omp_set_dynamic(0);
-		omp_set_num_threads(threads);
+		command = strToCommand(command_);
 
-		Base base(database_path.c_str(), reduced_database.c_str());
-		base.dump_in_memory();
+		if (command == Command::makedb) {
+			int high_numb, low_numb, high_olen, low_olen;
 
-		if (kmer_len != base.kmer_len()) {
-			printf("Error: This database was reduced with different kmer length!\n");
-			exit(-1);
+			size_t p = kmol_high.find(',');
+			high_numb = stoi(kmol_high.substr(0, p));
+			high_olen = stoi(kmol_high.substr(p + 1));
+
+			p = kmol_low.find(',');
+			low_numb = stoi(kmol_low.substr(0, p));
+			low_olen = stoi(kmol_low.substr(p + 1));
+			Base base(database_path.c_str(), reduced_database.c_str(), kmer_len, high_numb, high_olen, low_numb,
+			          low_olen, seg_window, stod(seg_low_cut_), stod(seg_high_cut_));
+
+			base.read();
+			base.make_indexes();
+		} else {
+			omp_set_dynamic(0);
+			omp_set_num_threads(threads);
+
+			Base base(database_path.c_str(), reduced_database.c_str());
+			base.dump_in_memory();
+
+			if (kmer_len != base.kmer_len()) {
+				printf("Error: This database was reduced with different kmer length!\n");
+				exit(-1);
+			}
+
+			boost::asio::io_service io_service;
+
+			tcp::endpoint endpoint(tcp::v4(), port);
+
+			syn_server(io_service,port, base);
 		}
 
-		boost::asio::io_service io_service;
-
-		tcp::endpoint endpoint(tcp::v4(), port);
-
-		syn_server(io_service,port, base);
-		//server_ptr server_(new server(io_service, endpoint, base));
-
-		//io_service.run();
 	} catch (invalid_argument &e) {
 		printf("%s\n", e.what());
+		printHelp(general, makedb);
 		exit(-1);
 	}
 }
@@ -218,17 +267,13 @@ AlignmentType strToAlignmentType(const std::string &str) {
 
 }
 
-Command strToCommand(const std::string &str) {
-	if (str == "makedb") return Command::makedb;
-	else if (str == "blastp") return Command::blastp;
-	else if (str == "blastx") return Command::blastx;
-	else {
-		throw invalid_argument("Unrecognised command!");
-	}
-}
 
-void printHelp(boost::program_options::options_description general) {
+void printHelp(boost::program_options::options_description general, boost::program_options::options_description makedb) {
 	cout << endl << "Syntax:" << endl;
-	cout << "  tachyon [OPTIONS]" << endl << endl;
-	cout << general << endl;
+	cout << "  tachyon COMMAND [OPTIONS]" << endl << endl;
+	cout << "Commands:" << endl;
+	cout << "  makedb\tCreate indexes from FASTA file" << endl;
+	cout << "  server\tStart server" << endl;
+	cout << endl;
+	cout << general << endl << makedb <<endl;
 }

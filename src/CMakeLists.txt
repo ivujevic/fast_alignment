@@ -17,9 +17,10 @@ target_include_directories(tac_core PRIVATE "{CMAKE_CURRENT_BINARY_DIR}")
 target_link_libraries(tac_core PUBLIC tac_deps)
 adjust_xcode_settings(tac_core)
 
-add_executable(tachyon main.cpp)
-target_link_libraries(tachyon tac_core)
-adjust_xcode_settings(tachyon)
+add_executable(tachyon_server server.cpp)
+target_link_libraries(tachyon_server tac_core)
+adjust_xcode_settings(tachyon_server)
 
-
+add_executable(client client.cpp)
+target_link_libraries(client tac_deps)
 

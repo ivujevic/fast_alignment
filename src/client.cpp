@@ -119,9 +119,12 @@ int main(int argc, char* argv[])
         }
     } catch (invalid_argument &e) {
         printf("%s\n", e.what());
+        printHelp(aligner);
+        exit(-1);
+    } catch (boost::system::system_error const& e) {
+        printf("It is not possible to find server on that port!\n");
         exit(-1);
     }
-    return 0;
 }
 
 void printHelp(boost::program_options::options_description general) {
