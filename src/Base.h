@@ -48,7 +48,6 @@ public:
 	Base(const char *path_to_database, const char *reduced_database) : pathToDatabase(path_to_database),
 	                                                                   reduced_database_(reduced_database) { };
 
-
 	const uint64_t database_size() { return databaseSize_; }
 
 	const DatabaseElement &operator[](int index) {
@@ -84,7 +83,7 @@ private:
 
 	vector<DatabaseElement> sets;
 
-	Base(const Base &) = delete;
+	//Base(const Base &) = delete;
 
 	const Base &operator=(const Base &) = delete;
 
