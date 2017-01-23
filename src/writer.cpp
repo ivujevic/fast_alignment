@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <sys/stat.h>
 
 #include "DatabaseElement.h"
 #include "ScoreMatrix.hpp"
@@ -19,8 +20,14 @@ constexpr int kDeletion = 1;  // deletion from query (insertion to target)
 constexpr int kInsertion = 2;  // insertion to query (deletion from target)
 constexpr int kMismatch = 3;  // mismatch
 
+static void createDir(string& path) {
+
+    string p = path.substr(0, path.find_last_of('/') + 1);
+     mkdir(p.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+}
 
 Writer::Writer(string& path, OutputType format, ScoreMatrix& scorer):format_(format),scorer_(scorer) {
+        createDir(path);
 		output_file_ = path.empty() ? stdout : fopen(path.c_str(), "w");
 }
 
