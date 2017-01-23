@@ -22,6 +22,8 @@ constexpr int kMismatch = 3;  // mismatch
 
 static void createDir(string& path) {
 
+    if (path.find('/') == string::npos) return;
+
     string p = path.substr(0, path.find_last_of('/') + 1);
      mkdir(p.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 }
