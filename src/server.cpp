@@ -101,7 +101,7 @@ void syn_server(boost::asio::io_service& io_service, short port, Base& base) {
 	{
 		socket_ptr sock(new tcp::socket(io_service));
 		a.accept(*sock);
-		boost::thread t(boost::bind(syn_session, sock, base));
+		boost::thread t(boost::bind(syn_session, sock, boost::ref(base)));
 	}
 }
 
