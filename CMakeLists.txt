@@ -14,7 +14,7 @@ endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     set(CMAKE_CXX_FLAGS
-            "${CMAKE_CXX_FLAGS} -g -O3 -fopenmp -std=c++11 -march=native -lpthread -MMD -MP -MF -Wall -Wextra \
+            "${CMAKE_CXX_FLAGS} -g -O3 -std=c++11 -march=native -lpthread -MMD -MP -MF -Wall -Wextra \
 						-Wno-sign-compare -Wno-return-type -fno-strict-aliasing")
 
 
