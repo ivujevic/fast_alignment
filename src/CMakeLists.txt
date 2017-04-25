@@ -10,7 +10,8 @@ add_library(tac_core
 		ScoreMatrix.cpp
 		Seg.cpp
 		tachyon.cpp
-		util.cpp alignment.cpp alignment.hpp writer.cpp writer.hpp util/json.hpp)
+		util.cpp alignment.cpp alignment.hpp writer.cpp writer.hpp util/json.hpp
+		Ref.hpp Runnable.hpp ThreadPool.cpp ThreadPool.hpp)
 
 target_include_directories(tac_core PUBLIC "{CMAKE_CURRENT_SOURCE_DIR}")
 target_include_directories(tac_core PRIVATE "{CMAKE_CURRENT_BINARY_DIR}")

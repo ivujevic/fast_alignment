@@ -23,6 +23,11 @@ public:
 	void search(ChainSet& queries,Type type, OutSet & results, AlignmentType align_type,
 	            double max_evalue, int max_uout,
 	            EValue& evalue_params,ScoreMatrix& scorer);
+
+	int findInDatabase(DatabaseElement& query, Type type, AlignmentSet & results,
+					   AlignmentType align_type,double max_evalue,
+					   EValue& evalue_params,ScoreMatrix& scorer);
+
 private:
 
 	int high_match_;
@@ -31,9 +36,6 @@ private:
 
 	Base& base_;
 
-	int findInDatabase(DatabaseElement& query, Type type, AlignmentSet & results,
-	                   AlignmentType align_type,double max_evalue,
-	                   EValue& evalue_params,ScoreMatrix& scorer);
 
 	void hit_database(vector<pair<long,long>>& coded_pentapeptides, std::unordered_set<long>& results);
 	void filter_hits(unordered_map<long,int>& high_hits, unordered_map<long,int>& low_hits, std::unordered_set<long>& results,

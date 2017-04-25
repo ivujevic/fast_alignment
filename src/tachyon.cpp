@@ -1,62 +1,62 @@
 #include <string>
 #include <unordered_set>
-#include "tachyon.h"
 
+#include "tachyon.h"
 
 void Tachyon::search(ChainSet &queries, Type type, OutSet &results, AlignmentType align_type, double max_evalue,
                      int max_out, EValue &evalue_params, ScoreMatrix &scorer) {
 
-	#pragma omp parallel
-	{
-		#pragma omp single
-		{
-			for (int i = 0; i < queries.size(); i++) {
-				#pragma omp task shared(results)
-				{
-					findInDatabase(queries[i], type, results[i], align_type, max_evalue, evalue_params, scorer);
-					int resLen = results[i].size();
-					results[i].resize(min(resLen, max_out));
-				}
-			}
-		}
-		#pragma omp barrier
-	}
+//	#pragma omp parallel
+//	{
+//		#pragma omp single
+//		{
+//			for (int i = 0; i < queries.size(); i++) {
+//				#pragma omp task shared(results)
+//				{
+//					findInDatabase(queries[i], type, results[i], align_type, max_evalue, evalue_params, scorer);
+//					int resLen = results[i].size();
+//					results[i].resize(min(resLen, max_out));
+//				}
+//			}
+//		}
+//		#pragma omp barrier
+//	}
 }
 
 int Tachyon::findInDatabase(DatabaseElement &query, Type type, AlignmentSet &results,
                             AlignmentType align_type, double max_evalue,
                             EValue &evalue_params, ScoreMatrix &scorer) {
-	if (type == Type::NUCLEOTIDES) {
-
-				vector<string> queries_AA;
-				convertDNAToAA(query.sequence(),queries_AA);
-
-				int q_len = queries_AA.size();
-				OutSet in_results;
-				in_results.clear();
-				in_results.resize(q_len);
-
-				for(int i =0 ; i < q_len; i++) {
-					DatabaseElement db(query.name(),query.name_len(),queries_AA[i],queries_AA[i].length(),query.id());
-					#pragma omp task shared(in_results,evalue_params,scorer)
-					{
-						findInDatabase(db,Type::PROTEINS,in_results[i],align_type,max_evalue,evalue_params,scorer);
-					}
-				}
-		#pragma omp taskwait
-		unordered_map<int,int> max_scores;
-		for(int i =0; i < q_len;i++) {
-			for(auto& alignment : in_results[i]) {
-				results.push_back(alignment);
-				auto id = alignment.target_id();
-				max_scores[id] = max(max_scores[id],alignment.score());
-			}
-		}
-
-		//TODO: Group by name and sort
-		sort(results.begin(),results.end(),compareAlignment);
-		return results.size();
-	}
+//	if (type == Type::NUCLEOTIDES) {
+//
+//				vector<string> queries_AA;
+//				convertDNAToAA(query.sequence(),queries_AA);
+//
+//				int q_len = queries_AA.size();
+//				OutSet in_results;
+//				in_results.clear();
+//				in_results.resize(q_len);
+//
+//				for(int i =0 ; i < q_len; i++) {
+//					DatabaseElement db(query.name(),query.name_len(),queries_AA[i],queries_AA[i].length(),query.id());
+//					#pragma omp task shared(in_results,evalue_params,scorer)
+//					{
+//						findInDatabase(db,Type::PROTEINS,in_results[i],align_type,max_evalue,evalue_params,scorer);
+//					}
+//				}
+//		#pragma omp taskwait
+//		unordered_map<int,int> max_scores;
+//		for(int i =0; i < q_len;i++) {
+//			for(auto& alignment : in_results[i]) {
+//				results.push_back(alignment);
+//				auto id = alignment.target_id();
+//				max_scores[id] = max(max_scores[id],alignment.score());
+//			}
+//		}
+//
+//		//TODO: Group by name and sort
+//		sort(results.begin(),results.end(),compareAlignment);
+//		return results.size();
+//	}
 
 	vector<pair<long, long>> coded_pentapeptides;
 

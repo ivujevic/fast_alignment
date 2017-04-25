@@ -5,6 +5,9 @@
 #include <boost/unordered_map.hpp>
 #include <omp.h>
 
+#include "Runnable.hpp"
+#include "ThreadPool.hpp"
+
 #include "tachyon.h"
 #include "util.h"
 #include "writer.hpp"
@@ -23,6 +26,49 @@ ScoreMatrixType strToScorerType(const std::string &str);
 
 AlignmentType strToAlignmentType(const std::string &str);
 
+
+class Worker1 : public Runnable{
+public:
+
+	Worker1(Tachyon& tachyon, DatabaseElement query, Type type, AlignmentSet& results,
+	AlignmentType alignType, double maxEvalue, EValue &evalueParams, ScoreMatrix &scorer, int maxOut):
+			tachyon_(tachyon), query_(query), type_(type), results_(results), alignType_(alignType),
+			maxEvalue_(maxEvalue), evalueParams_(evalueParams), scorer_(scorer), maxOut_(maxOut) {
+
+	};
+
+	virtual void run() {
+		tachyon_.findInDatabase(query_, type_, results_, alignType_, maxEvalue_, evalueParams_, scorer_);
+		int resLen = results_.size();
+		results_.resize(min(resLen, maxOut_));
+	}
+private:
+	Tachyon tachyon_;
+	DatabaseElement query_;
+	Type type_;
+	AlignmentSet& results_;
+	AlignmentType alignType_;
+	double maxEvalue_;
+	EValue evalueParams_;
+	ScoreMatrix scorer_;
+	int maxOut_;
+};
+
+static void search(Tachyon& tachyon, ChainSet &queries, Type type, OutSet &results, AlignmentType align_type, double max_evalue,
+				   int max_out, EValue &evalue_params, ScoreMatrix &scorer) {
+
+	cout<<"Stvorio"<<endl;
+	Ref<ThreadPool> pool = createThreadPool(8);
+
+	std::vector<Ref<Runnable>> workers;
+
+	for (int i = 0; i < queries.size(); i++) {
+		workers.push_back(Ref<Runnable>(new Worker1(tachyon, queries[i], type, results[i], align_type, max_evalue, evalue_params, scorer, max_out)));
+	}
+
+	pool->executeAllAndWait(workers);
+
+}
 int main(int argc, const char *argv[]) {
 
 	std::string database_path;
@@ -134,8 +180,8 @@ int main(int argc, const char *argv[]) {
 		AlignmentType align_type = strToAlignmentType(algorithm);
 		Type input_type;
 
-		omp_set_dynamic(0);
-		omp_set_num_threads(threads);
+//		omp_set_dynamic(0);
+//		omp_set_num_threads(threads);
 
 
 		if (command == Command::makedb) {
@@ -173,7 +219,7 @@ int main(int argc, const char *argv[]) {
 			else if (command == Command::blastx) input_type = Type::NUCLEOTIDES;
 
 			Tachyon tachyon(base, high_match, low_match, kmer_len);
-			tachyon.search(queries, input_type, results, align_type, max_evalue, max_alignments, evalue_params, scorer);
+			search(tachyon, queries, input_type, results, align_type, max_evalue, max_alignments, evalue_params, scorer);
 
 			OutputType out_format = strToOutputType(out_format_string);
 			Writer writer(out_path, out_format, scorer);
