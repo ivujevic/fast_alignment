@@ -36,10 +36,10 @@ extern "C" {
 #define OPAL_SEARCH_ALIGNMENT 2 //!< Search finds score, start and end location of alignment and alignment.
 
 // Alignment operations
-#define OPAL_ALIGN_MATCH 0  //!< Match.
-#define OPAL_ALIGN_DEL 1  //!< Deletion from query (insertion to target).
-#define OPAL_ALIGN_INS 2  //!< Insertion to query (deletion from target).
-#define OPAL_ALIGN_MISMATCH 3  //!< Mismatch.
+#define OPAL_ALIGN_MATCH 1  //!< Match.
+#define OPAL_ALIGN_DEL 2  //!< Deletion from query (insertion to target).
+#define OPAL_ALIGN_INS 3  //!< Insertion to query (deletion from target).
+#define OPAL_ALIGN_MISMATCH 4  //!< Mismatch.
 
     /**
      * Contains score and alignment information.

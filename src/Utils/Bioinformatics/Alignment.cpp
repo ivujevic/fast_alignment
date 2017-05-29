@@ -2,7 +2,8 @@
 // Created by vujevic on 27.04.16..
 //
 
-#include "alignment.hpp"
+#include <iostream>
+#include "Alignment.hpp"
 bool compareAlignment(const Alignment& left,
                       const Alignment& right) {
 
@@ -20,8 +21,17 @@ void Alignment::update(uint32_t query_begin, uint32_t query_end, uint32_t target
 	target_begin_ = target_begin;
 	target_end_ = target_end;
 
+	alignmentLen_ = length;
+
+//    alignment_ = new char[length + 1];
+//
+//    for (int i = 0; i < length; i++) {
+//        alignment_[i] = alignment[i];
+//    }
+//	alignment_[length] = '\0';
+
 	alignment_.clear();
-	for (uint32_t i = 0; i < length; ++i) {
+	for (int  i = 0; i < length; i++) {
 		alignment_ += alignment[i];
 	}
 }

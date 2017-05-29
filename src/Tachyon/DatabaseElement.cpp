@@ -1,9 +1,3 @@
-/* 
- * File:   DatabaseElement.cpp
- * Author: vujevic
- * 
- */
-
 #include "DatabaseElement.h"
 
 std::vector<char> kCoder = {
@@ -35,28 +29,41 @@ std::vector<char> kCoder = {
         -1,  -1,  -1,  -1,  -1
 };
 
-DatabaseElement::DatabaseElement(uint32_t id, char *name, uint32_t name_length, char *data, uint32_t data_length) {
+DatabaseElement::DatabaseElement() {
+
+}
+
+DatabaseElement::DatabaseElement(int id, char* name, int nameLen, char* sequence,
+                                 int sequenceLen) {
+
     // remove trailing white spaces
-    while (isspace(name[name_length - 1])) {
-        --name_length;
+    while (isspace(name[nameLen - 1])) {
+        nameLen--;
     }
 
 
     std::string data_;
-    data_.reserve(data_length);
+    data_.reserve(sequenceLen);
     uint32_t data_ptr = 0, valid_data_length = 0;
 
-    for (uint32_t i = 0; i < data_length; ++i) {
-        auto c = kCoder[data[i]];
+    for (uint32_t i = 0; i < sequenceLen; ++i) {
+        auto c = kCoder[sequence[i]];
         if (c != -1) {
-            data[data_ptr++] = c +'A';
+            sequence[data_ptr++] = c +'A';
             ++valid_data_length;
         }
     }
 
     id_ = id;
-    name_ = std::string(name,name_length);
-    name_len_ = name_length;
-    sequence_ = std::string(data,valid_data_length);
-    sequence_len_ = valid_data_length;
+    name_ = std::string(name, 0, nameLen);
+    nameLen_ = nameLen;
+    sequence_ = std::string(sequence, 0, valid_data_length);
+    sequenceLen_ = valid_data_length;
+
 }
+
+const std::string& DatabaseElement::getName() const { return name_; }
+int DatabaseElement::getNameLen() const { return nameLen_; }
+const std::string& DatabaseElement::getSequence() const { return sequence_; }
+int DatabaseElement::getSequenceLen() const { return sequenceLen_; }
+long DatabaseElement::id() const { return id_; }

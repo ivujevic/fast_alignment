@@ -4,6 +4,7 @@
 #include <string.h>
 #include <vector>
 #include <memory>
+#include "../../Tachyon/DatabaseElement.h"
 
 enum class OutputType;
 class ScoreMatrix;
@@ -11,7 +12,7 @@ class EValue;
 class Alignment;
 
 enum class AlignmentType {
-	kNW, // global alignment (Needleman-Wunsch)
+	kNW = 0, // global alignment (Needleman-Wunsch)
 	kHW, // semi-global alignemnt (query - _target_)
 	kOV, // semi-global alignment (_query_ - _target_)
 	kSW // local alignment (Smith-Waterman)
@@ -66,6 +67,10 @@ public:
 		return target_end_;
 	}
 
+	uint32_t getAlignmentLen() const {
+		return alignmentLen_;
+	}
+
 	const std::string& alignment() const {
 		return alignment_;
 	}
@@ -74,7 +79,7 @@ public:
 	            uint32_t target_end, const unsigned char* alignment, uint32_t length);
 
 
-private:
+protected:
 
 
 	int32_t score_;
@@ -88,5 +93,8 @@ private:
 	uint32_t target_begin_;
 	uint32_t target_end_;
 
+	uint32_t alignmentLen_;
+
 	std::string alignment_;
+	//char* alignment_;
 };

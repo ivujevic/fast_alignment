@@ -17,7 +17,7 @@
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 
-#include "Seg.h"
+#include "../Utils/Bioinformatics/Seg.h"
 #include <tuple>
 
 using namespace boost::serialization;
@@ -51,6 +51,10 @@ public:
 	const uint64_t database_size() { return databaseSize_; }
 
 	const DatabaseElement &operator[](int index) {
+		return sets[index];
+	}
+
+	const DatabaseElement getAt(int index) {
 		return sets[index];
 	}
 
@@ -99,7 +103,7 @@ private:
 	void find_indexes(DatabaseElement &elem, std::unordered_map<int, int> &counters, std::unordered_map<long,
 			vector<pair<long, long>>> &high_map, std::unordered_map<long, vector<pair<long, long>>> &low_map);
 
-	void findInRegion(string &sequence, std::vector<pair<long, long>> &indexes, std::unordered_map<int, int> &counters,
+	void findInRegion(std::string &sequence, std::vector<pair<long, long>> &indexes, std::unordered_map<int, int> &counters,
 	                  int kmer_numb,int region_start,
 	                  bool (*f)(const tuple<long, long, long> &a, const tuple<long, long, long> &b));
 

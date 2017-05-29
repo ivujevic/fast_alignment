@@ -10,15 +10,16 @@
 #include <fstream>
 #include <sys/stat.h>
 
-#include "DatabaseElement.h"
+#include "../../Tachyon/DatabaseElement.h"
 #include "ScoreMatrix.hpp"
-#include "alignment.hpp"
+#include "Alignment.hpp"
 #include "writer.hpp"
+#include "../Ref.hpp"
 
-constexpr int kMatch = 0;  // a match
-constexpr int kDeletion = 1;  // deletion from query (insertion to target)
-constexpr int kInsertion = 2;  // insertion to query (deletion from target)
-constexpr int kMismatch = 3;  // mismatch
+constexpr int kMatch = 1;  // a match
+constexpr int kDeletion = 2;  // deletion from query (insertion to target)
+constexpr int kInsertion = 3;  // insertion to query (deletion from target)
+constexpr int kMismatch = 4;  // mismatch
 
 static void createDir(string& path) {
 
@@ -44,7 +45,7 @@ Writer::~Writer() {
 }
 
 void Writer::write_alignments(const AlignmentSet& alignments, const ChainSet& queries,
-                              Base& database) {
+                              const Ref<Base>& database) {
 
 	switch (format_) {
 		case OutputType::kBm0:
@@ -66,7 +67,7 @@ void Writer::write_alignments(const AlignmentSet& alignments, const ChainSet& qu
 }
 
 void Writer::write_bm0(const AlignmentSet& alignments, const ChainSet& queries,
-                       Base& database) {
+					   const Ref<Base>& database) {
 
 	if (alignments.size() == 0) {
 		fprintf(output_file_, "No alignments found\n");
@@ -75,26 +76,26 @@ void Writer::write_bm0(const AlignmentSet& alignments, const ChainSet& queries,
 
 	auto query_id = alignments[0].query_id();
 	auto& query = queries[query_id];
-	const auto& query_seq = query.sequence();
+	const auto& query_seq = query.getSequence();
 
-	fprintf(output_file_, "Query= %s\n", query.name().c_str());
-	fprintf(output_file_, "Length=%zu\n\n", query.sequence_len());
+	fprintf(output_file_, "Query= %s\n", query.getSequence());
+	fprintf(output_file_, "Length=%zu\n\n", query.getSequenceLen());
 	fprintf(output_file_, "Sequences producing significant alignments:");
 	fprintf(output_file_, "%27.27s", "Score");
 	fprintf(output_file_, "%10.10s\n\n", "Evalue");
 
 	for (auto& alignment : alignments) {
 		auto target_id = alignment.target_id();
-		auto& target = database[target_id];
+		auto& target = database->getAt(target_id);
 
-		auto& name = target.name();
+		auto& name = target.getName();
 		auto score = alignment.score();
 		auto eval = alignment.evalue();
 
 		if (name.size() > 64) {
-			fprintf(output_file_, "     %.64s...%10d%10.0e\n", name.c_str(), score, eval);
+			fprintf(output_file_, "     %.64s...%10d%10.0e\n", name, score, eval);
 		} else {
-			fprintf(output_file_, "     %.67s%10d%10.0e\n", name.c_str(), score, eval);
+			fprintf(output_file_, "     %.67s%10d%10.0e\n", name, score, eval);
 		}
 	}
 
@@ -102,22 +103,22 @@ void Writer::write_bm0(const AlignmentSet& alignments, const ChainSet& queries,
 
 	for (const auto& alignment : alignments) {
 		auto target_id = alignment.target_id();
-		auto& target = database[target_id];
-		auto& target_name = target.name();
-		const auto& target_seq = target.sequence();
+		auto& target = database->getAt(target_id);
+		auto& target_name = target.getName();
+		const auto& target_seq = target.getSequence();
 		auto align_target_start = alignment.target_begin();
 		auto align_query_start = alignment.query_begin();
 
-		fprintf(output_file_, ">%s\n", target_name.c_str());
-		fprintf(output_file_, "Length=%zu\n\n", target.sequence_len());
+		fprintf(output_file_, ">%s\n", target_name);
+		fprintf(output_file_, "Length=%zu\n\n", target.getSequenceLen());
 		fprintf(output_file_, " Score = %d,", alignment.score());
 		fprintf(output_file_, " Expect = %.0e\n", alignment.evalue());
 
-		const auto& alignment_str = alignment.alignment();
+		std::string alignment_str = alignment.alignment();
 		int identities = 0;
 		int positives = 0;
 		int gaps = 0;
-		auto alignment_len = alignment_str.size();
+		auto alignment_len = alignment.getAlignmentLen();
 
 		auto query_ptr = align_query_start;
 		auto target_ptr = align_target_start;
@@ -214,14 +215,14 @@ void Writer::write_bm0(const AlignmentSet& alignments, const ChainSet& queries,
 }
 
 void Writer::write_bm8(const AlignmentSet& alignments, const ChainSet& queries,
-                       Base& database) {
+					   const Ref<Base>& database) {
 
 	if (alignments.size() == 0) {
 		return;
 	}
 
 	auto query_id = alignments[0].query_id();
-	auto query_name = queries[query_id].name();
+	auto query_name = queries[query_id].getName();
 
 	auto space_pos = query_name.find(" ", 0);
 	if (space_pos != std::string::npos) {
@@ -235,7 +236,7 @@ void Writer::write_bm8(const AlignmentSet& alignments, const ChainSet& queries,
 		bool gap = false;
 
 		const auto& alignment_str = alignment.alignment();
-		const auto alignment_len = alignment_str.size();
+		const auto alignment_len = alignment.getAlignmentLen();
 
 		for (uint32_t j = 0; j < alignment_len; ++j) {
 			int alignment_res = alignment_str[j];
@@ -266,7 +267,7 @@ void Writer::write_bm8(const AlignmentSet& alignments, const ChainSet& queries,
 		}
 
 		auto target_id = alignment.target_id();
-		auto target_name = database[target_id].name();
+		auto target_name = database->getAt((target_id)).getName();
 
 		space_pos = target_name.find(" ", 0);
 		if (space_pos != std::string::npos) {
@@ -296,7 +297,7 @@ void Writer::write_bm8(const AlignmentSet& alignments, const ChainSet& queries,
 }
 
 void Writer::write_bm9(const AlignmentSet& alignments, const ChainSet& queries,
-                       Base& database) {
+					   const Ref<Base>& database) {
 
 	fprintf(output_file_, "# Fields:\n");
 	fprintf(output_file_, "Query id,Subject id,%% identity,alignment length,mismatches,"

@@ -1,31 +1,26 @@
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/..")
-include(XcodeSettings)
 
 add_library(tac_core
-		Base.cpp
-		Constants.cpp
-		DatabaseElement.cpp
-		Evalue.cpp
-		opal.cpp
-		ScoreMatrix.cpp
-		Seg.cpp
-		tachyon.cpp
-		util.cpp alignment.cpp alignment.hpp writer.cpp writer.hpp util/json.hpp
-		Ref.hpp Runnable.hpp ThreadPool.cpp ThreadPool.hpp)
+			Tachyon/Base.cpp
+			Utils/Bioinformatics/Constants.cpp
+			Tachyon/DatabaseElement.cpp
+			Utils/Bioinformatics/Evalue.cpp
+			Utils/Bioinformatics/Alignment/Opal.cpp
+			Utils/Bioinformatics/ScoreMatrix.cpp
+			Utils/Bioinformatics/Seg.cpp
+			Tachyon/Tachyon.cpp
+			Utils/util.cpp Utils/Bioinformatics/Alignment.cpp Utils/Bioinformatics/Alignment.hpp Utils/Bioinformatics/writer.cpp Utils/Bioinformatics/writer.hpp Utils/json.hpp
+			Utils/Ref.hpp)
 
 target_include_directories(tac_core PUBLIC "{CMAKE_CURRENT_SOURCE_DIR}")
 target_include_directories(tac_core PRIVATE "{CMAKE_CURRENT_BINARY_DIR}")
-target_link_libraries(tac_core PUBLIC tac_deps)
-adjust_xcode_settings(tac_core)
+target_link_libraries(tac_core PUBLIC ${Boost_LIBRARIES} threadpool11)
 
-add_executable(tachyon_server server.cpp)
-target_link_libraries(tachyon_server tac_core)
-adjust_xcode_settings(tachyon_server)
+add_library(tachyon_shared SHARED LibWrappers/Tachyon_lib.cpp)
+set_target_properties(tachyon_shared PROPERTIES
+					  LIBRARY_OUTPUT_DIRECTORY "/home/vujevic/fast_alignment/java/out/production/tachyon_wrapper/")
+
+target_link_libraries(tachyon_shared PUBLIC tac_core ${Boost_LIBRARIES} threadpool11)
 
 add_executable(tachyon main.cpp)
 target_link_libraries(tachyon tac_core)
-adjust_xcode_settings(tachyon)
-
-add_executable(tachyon_client client.cpp)
-target_link_libraries(tachyon_client tac_deps)
-

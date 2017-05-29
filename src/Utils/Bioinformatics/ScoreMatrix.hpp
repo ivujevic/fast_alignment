@@ -8,7 +8,7 @@
 class ScoreMatrix;
 
 enum class ScoreMatrixType {
-    kBlosum45,
+    kBlosum45 = 0,
     kBlosum50,
     kBlosum62,
     kBlosum80,

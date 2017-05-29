@@ -7,8 +7,9 @@
 #include <boost/archive/text_iarchive.hpp>
 
 
-#include "util.h"
+#include "../Utils/util.h"
 
+#include "../Utils/threadpool11/include/threadpool11/threadpool11.hpp"
 
 using namespace std;
 using namespace boost::serialization;
@@ -17,7 +18,7 @@ void Base::count(DatabaseElement &elem, std::unordered_map<int, int> &counters) 
 	vector<long> results;
 
 	Seg seg = Seg(seg_window_, seg_low_, seg_high_);
-	string seq = elem.sequence();
+	std::string seq = elem.getSequence();
 	seg.mask(seq);
 	get_codes(seq, results, kmer_len_);
 
@@ -35,7 +36,7 @@ void Base::count(DatabaseElement &elem, std::unordered_map<int, int> &counters) 
 	}
 }
 
-void Base::findInRegion(string &region, std::vector<pair<long, long>> &indexes, std::unordered_map<int, int> &counters,
+void Base::findInRegion(std::string &region, std::vector<pair<long, long>> &indexes, std::unordered_map<int, int> &counters,
                         int kmer_numb, int region_start,
                         bool (*sortFunction)(const tuple<long, long, long> &, const tuple<long, long, long> &)) {
 
@@ -88,9 +89,9 @@ void Base::find_indexes(DatabaseElement &elem, std::unordered_map<int, int> &cou
 	vector<pair<long, long>> high_indexes;
 	vector<pair<long, long>> low_indexes;
 
-	int regionSize = high_olen_ == 0 ? elem.sequence_len() : high_olen_;
-	for (int k = 0; k < elem.sequence_len(); k += regionSize) {
-		string region = elem.sequence().substr(k, regionSize);
+	int regionSize = high_olen_ == 0 ? elem.getSequenceLen() : high_olen_;
+	for (int k = 0; k < elem.getSequenceLen(); k += regionSize) {
+		string region = elem.getSequence().substr(k, regionSize);
 		findInRegion(region, high_indexes, counters, high_numb_,k,
 		             [](const tuple<long, long, long> &a, const tuple<long, long, long> &b) -> bool {
 			             long freq_a, freq_b;
@@ -101,9 +102,9 @@ void Base::find_indexes(DatabaseElement &elem, std::unordered_map<int, int> &cou
 		             });
 	}
 
-	regionSize = low_olen_ == 0 ? elem.sequence_len() : low_olen_;
-	for (int k = 0; k < elem.sequence_len(); k += regionSize) {
-		string region = elem.sequence().substr(k, regionSize);
+	regionSize = low_olen_ == 0 ? elem.getSequenceLen() : low_olen_;
+	for (int k = 0; k < elem.getSequenceLen(); k += regionSize) {
+		string region = elem.getSequence().substr(k, regionSize);
 		findInRegion(region, low_indexes, counters, low_numb_,k,
 		             [](const tuple<long, long, long> &a, const tuple<long, long, long> &b) -> bool {
 			             long freq_a, freq_b;
@@ -219,15 +220,16 @@ void Base::read_indexes() {
 }
 
 bool Base::dump_in_memory() {
-	#pragma omp parallel
-	{
-		#pragma omp single
-		{
-			#pragma omp task
-			read();
-			#pragma omp task
-			read_indexes();
-		}
-		#pragma omp barrier
-	}
+
+	threadpool11::Pool pool(2);
+
+	pool.postWork<void>([&](){
+		read();
+	});
+	pool.postWork<void>([&](){
+		read_indexes();
+	});
+
+	pool.waitAll();
+
 }

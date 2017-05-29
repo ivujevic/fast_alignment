@@ -3,7 +3,7 @@
 
 
 #include "util.h"
-#include "Constants.h"
+#include "Bioinformatics/Constants.h"
 
 using namespace std;
 constexpr uint32_t kBufferSize = 1024 * 1024;
@@ -108,9 +108,10 @@ uint64_t readFastaFile(const char* file, ChainSet & elements,uint64_t databaseSi
 				bytes_over = 0;
 				is_name = true;
 
-				elements.push_back(DatabaseElement(num_chains_read_++, name, name_length,data, data_length));
 
-				databaseSize +=elements.back().sequence_len();
+				elements.emplace_back(num_chains_read_++, name, name_length, data, data_length);
+
+				databaseSize += elements.back().getSequenceLen();
 				name_length = data_length = 0;
 			}
 
@@ -189,7 +190,7 @@ void getComplementChain(const std::string& chain,int len, std::string& complemen
 
 
 void get_codes(const std::string& sequence, std::vector<long>& results, int kmer_len) {
-	int len = sequence.length();
+	int len = sequence.size();
 	for(int i = 0; i < len - (kmer_len - 1); i++) {
 		long code = 0;
 		bool isValid = true;
@@ -206,8 +207,8 @@ void get_codes(const std::string& sequence, std::vector<long>& results, int kmer
 	}
 }
 
-void get_codes(const string& sequence, vector<pair<long,long>>& results,int kmer_len) {
-	int len = sequence.length();
+void get_codes(const std::string& sequence, vector<pair<long,long>>& results,int kmer_len) {
+	int len = sequence.size();
 	set<long> tempSet;
 	for(int i = 0; i < len - (kmer_len - 1); i++) {
 		long code = 0;

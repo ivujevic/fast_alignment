@@ -10289,7 +10289,7 @@ Format](http://rfc7159.net/rfc7159)
 						// first pass: traverse this object's elements
 						for (auto it = source.begin(); it != source.end(); ++it)
 						{
-							// escape the key name to be used in a JSON patch
+							// escape the key getName to be used in a JSON patch
 							const auto key = json_pointer::escape(it.key());
 
 							if (target.find(it.key()) != target.end())
