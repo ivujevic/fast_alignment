@@ -70,7 +70,7 @@ int readFastaFile(std::string file, std::vector< std::pair< std::string,std::str
 
 
 
-uint64_t readFastaFile(const char* file, ChainSet & elements,uint64_t databaseSize) {
+uint64_t readFastaFile(const char* file, ChainSet & elements, uint64_t databaseSize) {
 
 	/* Code taken from SW# (author: Matija Korpar) */
 
@@ -189,7 +189,7 @@ void getComplementChain(const std::string& chain,int len, std::string& complemen
 }
 
 
-void get_codes(const std::string& sequence, std::vector<long>& results, int kmer_len) {
+void getCodes(const std::string& sequence, std::vector<long>& results, int kmer_len) {
 	int len = sequence.size();
 	for(int i = 0; i < len - (kmer_len - 1); i++) {
 		long code = 0;
@@ -207,7 +207,7 @@ void get_codes(const std::string& sequence, std::vector<long>& results, int kmer
 	}
 }
 
-void get_codes(const std::string& sequence, vector<pair<long,long>>& results,int kmer_len) {
+void getCodes(const std::string& sequence, vector<pair<long,long>>& results,int kmer_len) {
 	int len = sequence.size();
 	set<long> tempSet;
 	for(int i = 0; i < len - (kmer_len - 1); i++) {

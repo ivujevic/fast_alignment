@@ -11,7 +11,7 @@ if( NOT CMAKE_BUILD_TYPE)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release")
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -march=native -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -std=c++17 -march=native -fPIC -Werror")
 
 if( CMAKE_BUILD_TYPE MATCHES Debug)
     message("Debug mode")
@@ -33,6 +33,5 @@ endif()
 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pthread")
 
-add_subdirectory(src/Utils/threadpool11)
 add_subdirectory(src)
 

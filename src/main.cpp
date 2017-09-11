@@ -7,7 +7,7 @@
 
 #include "Tachyon/Tachyon.h"
 #include "Utils/util.h"
-#include "Utils/Bioinformatics/writer.hpp"
+#include "Utils/Bioinformatics/Writer.hpp"
 
 
 using namespace std;
@@ -149,7 +149,7 @@ int main(int argc, const char *argv[]) {
 			Base base(database_path.c_str(), reduced_database.c_str(), kmer_len, high_numb, high_olen, low_numb,
 			          low_olen, seg_window, stod(seg_low_cut_), stod(seg_high_cut_));
 			base.read();
-			base.make_indexes();
+			base.makeIndexes();
 		} else {
 
 			ChainSet queries;

@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "Alignment.hpp"
+
 bool compareAlignment(const Alignment& left,
                       const Alignment& right) {
 
@@ -12,6 +13,14 @@ bool compareAlignment(const Alignment& left,
 	return false;
 }
 
+Alignment::Alignment() {
+
+}
+
+Alignment::Alignment(int32_t score, double evalue, uint32_t queryId, const DatabaseElement* target)
+	: score_(score), evalue_(evalue), query_id_(queryId), target_(target) {
+
+}
 
 void Alignment::update(uint32_t query_begin, uint32_t query_end, uint32_t target_begin,
                        uint32_t target_end, const unsigned char* alignment, uint32_t length) {
@@ -23,20 +32,11 @@ void Alignment::update(uint32_t query_begin, uint32_t query_end, uint32_t target
 
 	alignmentLen_ = length;
 
-//    alignment_ = new char[length + 1];
-//
-//    for (int i = 0; i < length; i++) {
-//        alignment_[i] = alignment[i];
-//    }
-//	alignment_[length] = '\0';
-
 	alignment_.clear();
+    alignment_.resize(length);
+
 	for (int  i = 0; i < length; i++) {
-		alignment_ += alignment[i];
+		alignment_[i] = alignment[i];
 	}
-}
-
-Alignment::Alignment() {
-
 }
 

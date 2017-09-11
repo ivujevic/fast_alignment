@@ -24,6 +24,7 @@ public:
 	DatabaseElement(int id, char* name, int nameLen,
 	                char* sequence, int sequenceLen);
 
+    DatabaseElement(const std::string& name, int nameLen, const std::string& sequence, const int seqLen, const int id);
 
     /**
      * Getters and setters for private members.

@@ -29,7 +29,7 @@ public:
 	Writer(string & output_file, OutputType format, ScoreMatrix& scorer);
 	Writer(FILE* output_file, OutputType format, ScoreMatrix& scorer);
 	void write_alignments(const AlignmentSet& alignments, const ChainSet& queries,
-	                      const Ref<Base>& database);
+	                      const Base& database);
 
 
 private:
@@ -38,13 +38,13 @@ private:
 	const Writer& operator=(const Writer&) = delete;
 
 	void write_bm0(const AlignmentSet& alignments, const ChainSet& queries,
-	               const Ref<Base>& database);
+	               const Base& database);
 
 	void write_bm8(const AlignmentSet& alignments, const ChainSet& queries,
-				   const Ref<Base>& database);
+				   const Base& database);
 
 	void write_bm9(const AlignmentSet& alignments, const ChainSet& queries,
-				   const Ref<Base>& database);
+				   const Base& database);
 
 	FILE* output_file_;
 	OutputType format_;

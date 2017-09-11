@@ -13,7 +13,7 @@
 #include "../../Tachyon/DatabaseElement.h"
 #include "ScoreMatrix.hpp"
 #include "Alignment.hpp"
-#include "writer.hpp"
+#include "Writer.hpp"
 #include "../Ref.hpp"
 
 constexpr int kMatch = 1;  // a match
@@ -44,8 +44,7 @@ Writer::~Writer() {
 	}
 }
 
-void Writer::write_alignments(const AlignmentSet& alignments, const ChainSet& queries,
-                              const Ref<Base>& database) {
+void Writer::write_alignments(const AlignmentSet& alignments, const ChainSet& queries, const Base& database) {
 
 	switch (format_) {
 		case OutputType::kBm0:
@@ -66,8 +65,7 @@ void Writer::write_alignments(const AlignmentSet& alignments, const ChainSet& qu
 	}
 }
 
-void Writer::write_bm0(const AlignmentSet& alignments, const ChainSet& queries,
-					   const Ref<Base>& database) {
+void Writer::write_bm0(const AlignmentSet& alignments, const ChainSet& queries, const Base& database) {
 
 	if (alignments.size() == 0) {
 		fprintf(output_file_, "No alignments found\n");
@@ -85,10 +83,8 @@ void Writer::write_bm0(const AlignmentSet& alignments, const ChainSet& queries,
 	fprintf(output_file_, "%10.10s\n\n", "Evalue");
 
 	for (auto& alignment : alignments) {
-		auto target_id = alignment.target_id();
-		auto& target = database->getAt(target_id);
-
-		auto& name = target.getName();
+		const DatabaseElement* target = alignment.target();
+		auto& name = target->getName();
 		auto score = alignment.score();
 		auto eval = alignment.evalue();
 
@@ -102,15 +98,14 @@ void Writer::write_bm0(const AlignmentSet& alignments, const ChainSet& queries,
 	fprintf(output_file_, "\n");
 
 	for (const auto& alignment : alignments) {
-		auto target_id = alignment.target_id();
-		auto& target = database->getAt(target_id);
-		auto& target_name = target.getName();
-		const auto& target_seq = target.getSequence();
+		const DatabaseElement* target = alignment.target();
+		auto& target_name = target->getName();
+		const auto& target_seq = target->getSequence();
 		auto align_target_start = alignment.target_begin();
 		auto align_query_start = alignment.query_begin();
 
 		fprintf(output_file_, ">%s\n", target_name);
-		fprintf(output_file_, "Length=%zu\n\n", target.getSequenceLen());
+		fprintf(output_file_, "Length=%zu\n\n", target->getSequenceLen());
 		fprintf(output_file_, " Score = %d,", alignment.score());
 		fprintf(output_file_, " Expect = %.0e\n", alignment.evalue());
 
@@ -214,8 +209,7 @@ void Writer::write_bm0(const AlignmentSet& alignments, const ChainSet& queries,
 	        scorer_.gap_open(), scorer_.gap_extend());
 }
 
-void Writer::write_bm8(const AlignmentSet& alignments, const ChainSet& queries,
-					   const Ref<Base>& database) {
+void Writer::write_bm8(const AlignmentSet& alignments, const ChainSet& queries, const Base& database) {
 
 	if (alignments.size() == 0) {
 		return;
@@ -266,17 +260,13 @@ void Writer::write_bm8(const AlignmentSet& alignments, const ChainSet& queries,
 			}
 		}
 
-		auto target_id = alignment.target_id();
-		auto target_name = database->getAt((target_id)).getName();
-
-		space_pos = target_name.find(" ", 0);
-		if (space_pos != std::string::npos) {
-			target_name = target_name.substr(0, space_pos);
-		}
-
 		double perc_id = (100.f * matches) / alignment_len;
 
-		fprintf(output_file_, "%s\t%s\t", query_name.c_str(), target_name.c_str());
+        if (auto spacePosition = alignment.target()->getName().find(" ", 0); spacePosition != std::string::npos) {
+            fprintf(output_file_, "%s\t%s\t", query_name.c_str(), alignment.target()->getName().substr(0, spacePosition).c_str());
+        } else {
+            fprintf(output_file_, "%s\t%s\t", query_name.c_str(), alignment.target()->getName().c_str());
+        }
 		fprintf(output_file_, "%.lf\t%lu\t%d\t", perc_id, alignment_len, mismatches);
 		fprintf(output_file_, "%d\t%d\t", gap_openings, alignment.query_begin()+1);
 		fprintf(output_file_, "%d\t%d\t", alignment.query_end()+1, alignment.target_begin()+1);
@@ -296,8 +286,7 @@ void Writer::write_bm8(const AlignmentSet& alignments, const ChainSet& queries,
 	}
 }
 
-void Writer::write_bm9(const AlignmentSet& alignments, const ChainSet& queries,
-					   const Ref<Base>& database) {
+void Writer::write_bm9(const AlignmentSet& alignments, const ChainSet& queries, const Base& database) {
 
 	fprintf(output_file_, "# Fields:\n");
 	fprintf(output_file_, "Query id,Subject id,%% identity,alignment length,mismatches,"

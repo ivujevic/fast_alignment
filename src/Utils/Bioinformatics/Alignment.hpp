@@ -29,10 +29,8 @@ public:
 
 
 	Alignment();
+	Alignment(int32_t score, double evalue, uint32_t queryId, const DatabaseElement* target);
 
-	Alignment(int32_t score, double evalue, uint32_t query_id, uint32_t target_id): score_(score), evalue_(evalue),
-	                                                                                query_id_(query_id),
-	                                                                                target_id_(target_id){}
 	~Alignment() = default;
 
 	int32_t score() const {
@@ -55,8 +53,8 @@ public:
 		return query_end_;
 	}
 
-	uint32_t target_id() const {
-		return target_id_;
+	const DatabaseElement* target() const {
+		return target_;
 	}
 
 	uint32_t target_begin() const {
@@ -86,7 +84,7 @@ protected:
 	double evalue_;
 
 	uint32_t query_id_;
-	uint32_t target_id_;
+    const DatabaseElement* target_;
 
 	uint32_t query_begin_;
 	uint32_t query_end_;
@@ -96,5 +94,4 @@ protected:
 	uint32_t alignmentLen_;
 
 	std::string alignment_;
-	//char* alignment_;
 };

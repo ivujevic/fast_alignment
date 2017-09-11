@@ -1,4 +1,5 @@
 #pragma once
+
 #include<string>
 #include<memory>
 #include <unordered_set>
@@ -17,16 +18,14 @@ using OutSet = std::vector<AlignmentSet>;
 
 using ChainSetP = std::vector<DatabaseElement*>;
 
-class TachyonWorker;
-
-class RunParams{
+class RunParams {
 public:
     Type inputType;
-	int numOfHighMatch;
-	int numOfLowMatch;
-	int gapOpen;
-	int gapExtend;
-	double maxEvalue;
+    int numOfHighMatch;
+    int numOfLowMatch;
+    int gapOpen;
+    int gapExtend;
+    double maxEvalue;
     double maxOutPerQuery;
     ScoreMatrixType scoreMatrixType;
     AlignmentType alignType;
@@ -35,29 +34,33 @@ public:
               double maxOutPerQuery, ScoreMatrixType scoreMatrixType, AlignmentType alignType);
 };
 
-class Tachyon{
+class Tachyon {
 public:
 
     Tachyon(const char* origPath, const char* reducedPath);
-	void search(const std::vector<DatabaseElement>& queries, RunParams& params, std::vector<std::vector<Alignment>>& results) const;
 
-    const Ref<Base>& getBase() const { return base_; }
-	int findInDatabase(const DatabaseElement& query, const Type type, const RunParams& params, EValue& evalueParams,
-					   ScoreMatrix& scorer, std::vector<Alignment>& results) const;
+    void search(const std::vector<DatabaseElement>& queries, RunParams& params,
+                std::vector<std::vector<Alignment>>& results) const;
+
+    const Base& getBase() const { return base_; }
+
+    int findInDatabase(const DatabaseElement& query, const Type type, const RunParams& params, EValue& evalueParams,
+                       ScoreMatrix& scorer, std::vector<Alignment>& results) const;
+
 private:
 
-    Ref<Base> base_;
+    Base base_;
 
 
-	void hit_database(vector<pair<long,long>>& coded_pentapeptides, int highMatch, int lowMatch, std::unordered_set<long>& results) const;
+    void hitDatabase(const vector<pair<long, long>>& coded_pentapeptides, const int highMatch, const int lowMatch,
+                     std::vector<const DatabaseElement*>& results) const;
 
-	void filter_hits(unordered_map<long,int>& high_hits, unordered_map<long,int>& low_hits, std::unordered_set<long>& results,
-	                 unordered_map<long, vector<pair<long,long>>> &positions,
-	                 unordered_map<long, vector<pair<long,long>>> &lowPositions,
-                     int highMatch, int lowMatch) const;
+    void filterHits(const unordered_map<long, int>& high_hits, const unordered_map<long, int>& low_hits,
+                    unordered_map<long, vector<pair<long, long>>>& positions,
+                    unordered_map<long, vector<pair<long, long>>>& lowPositions,
+                    const int highMatch, const int lowMatch, std::unordered_set<long>& results) const;
 
-	void ssearch(const DatabaseElement& query, const std::unordered_set<long>& hits_id, AlignmentSet & alignments,
-	             const double max_evalue, const AlignmentType align_type, EValue& evalue_params, ScoreMatrix& scorer) const;
-
-    friend class TachyonWorker;
+    void
+    ssearch(const DatabaseElement& query, const std::vector<const DatabaseElement*>& hits, AlignmentSet& alignments,
+            const double max_evalue, const AlignmentType align_type, EValue& evalue_params, ScoreMatrix& scorer) const;
 };
